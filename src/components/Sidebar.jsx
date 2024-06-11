@@ -5,7 +5,7 @@ import { IoHeartOutline } from "react-icons/io5";
 
 const Sidebar = () => {
   return (
-    <div className='fixed top-0 left-0 h-screen p-1 bg-blue-400 text-white font-bold'>
+    <div className='fixed top-0 left-0 h-screen p-1 bg-blue-400 text-white font-bold '>
        <ul className='p-5 space-y-8'>
         <li>
           <button>
