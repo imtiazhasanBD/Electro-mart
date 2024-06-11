@@ -1,20 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useState} from 'react';
 import Product from './Product';
 import { v4 as uuidv4 } from 'uuid';
+import { ProductsContext } from '../context/ProductsContext';
 
 
 const Products = () => {
-    const [products, setProducts] = useState(null);
 
-    useEffect(() => {
-        fetch("https://fakestoreapi.com/products")
-        .then((res) => res.json())
-        .then((data) => {
-            setProducts(data);
-        })
-    },[])
+const {products, setProducts, flitedProducts, setFlitedproducts} = useContext(ProductsContext);
+// const [category, setCategory] = useState([]);
 
- 
+
+    
   return (
     <div>
        <div className="catagory bg-white flex w-full space-x-8 px-2 py-10 sticky top-[56px] z-10">
@@ -28,7 +24,7 @@ const Products = () => {
        </div>
 
        <div className="products grid grid-cols-1 xl:grid-cols-5 md:grid-cols-3 gap-9 p-4 z-20">
-         {products &&  products.map((product) => <Product product={product} key={uuidv4()}/>)}
+         {flitedProducts &&  flitedProducts.map((product) => <Product product={product} key={uuidv4()}/>)}
        </div>
     </div>
   )

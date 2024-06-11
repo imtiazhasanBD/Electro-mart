@@ -1,14 +1,16 @@
 import React from 'react'
-import Slidebar from '../components/Sidebar'
 import Sidebar from '../components/Sidebar'
 import Main from '../components/Main'
+import ProductsProvider from '../context/ProductsContext'
 
 const Home = () => {
   return (
-    <div>
-       <Sidebar/>
-       <Main/>
-    </div>
+    
+    <ProductsProvider>
+      <div>
+        <Main/>
+      </div>
+    </ProductsProvider>
   )
 }
 

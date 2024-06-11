@@ -1,14 +1,28 @@
 import React from 'react'
 import Home from './pages/Home'
+import Card from './pages/Card'
+import Favorites from './pages/Favorites'
+import Order from './pages/Order'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import Sidebar from './components/Sidebar'
 
 
 function App() {
 
   return (
-    <>
-       <Home/>
-    </>
+     
+    <BrowserRouter>
+    <Sidebar/>
+      <Routes>
+        <Route path='/' element={<Home/>}/>
+        <Route path='/cart' element={<Card/>}/>
+        <Route path='/favs' element={<Favorites/>}/>
+        <Route path='/orders' element={<Order/>}/>
+      </Routes>
+    </BrowserRouter>
+
   )
 }
 
 export default App
+

@@ -2,6 +2,7 @@ import React from 'react';
 import { HiOutlineMenuAlt2, HiOutlineHome } from "react-icons/hi";
 import { CiShoppingCart, CiDeliveryTruck } from "react-icons/ci";
 import { IoHeartOutline } from "react-icons/io5";
+import { NavLink } from 'react-router-dom';
 
 const Sidebar = () => {
   return (
@@ -14,27 +15,35 @@ const Sidebar = () => {
         </li>
 
         <li>
+          <NavLink to={"/"}>
           <button>
             <HiOutlineHome size={'1.5rem'}/>
           </button>
+          </NavLink>
         </li>
 
         <li>
+          <NavLink to={"/cart"}>
           <button>
             <CiShoppingCart size={'1.5rem'}/>
           </button>
+          </NavLink>
         </li>
 
         <li>
-          <button>
-            <IoHeartOutline size={'1.5rem'}/>
-          </button>
+          <NavLink to={"/favs"}>
+            <button>
+              <IoHeartOutline size={'1.5rem'}/>
+            </button>
+          </NavLink>
         </li>
 
         <li>
+          <NavLink to={"/orders"}>
           <button>
             <CiDeliveryTruck size={'1.5rem'}/>
           </button>
+          </NavLink>
         </li>
        </ul>
     </div>
