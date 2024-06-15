@@ -5,6 +5,7 @@ import Favorites from './pages/Favorites'
 import Order from './pages/Order'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Sidebar from './components/Sidebar'
+import ProductPreview from './pages/ProductPreview'
 
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
         <Route path='/cart' element={<Card/>}/>
         <Route path='/favs' element={<Favorites/>}/>
         <Route path='/orders' element={<Order/>}/>
+        <Route path='/preview/:title' element={<ProductPreview/>}/>
       </Routes>
     </BrowserRouter>
 
