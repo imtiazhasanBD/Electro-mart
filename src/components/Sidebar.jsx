@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom';
 
 const Sidebar = () => {
   return (
-    <div className='fixed top-0 left-0 h-screen p-1 bg-blue-400 text-white font-bold '>
+    <div className='fixed  top-0 left-0 h-full p-1 bg-blue-400 text-white font-bold z-10'>
        <ul className='p-5 space-y-8'>
         <li>
           <button>

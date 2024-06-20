@@ -7,6 +7,9 @@ const initialState = {
      isError: false,
      products: [],
      cartProducts: [],
+     relatedProducts: [],
+     favoriteProducts: [],
+     showMessage: 'Product has Added To Cart'
     
 }
 
