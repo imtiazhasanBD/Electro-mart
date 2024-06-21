@@ -15,9 +15,9 @@ const Rating = ({ rating, count }) => {
       {[...Array(emptyStars)].map((_, i) => (
         <span key={`empty-${i}`} className="text-gray-300">&#9734;</span> // Empty star
       ))}
-      <span className="ml-2 text-gray-500">({count})</span> {/* Number of reviews*/}
+     {count > 0?  <span className="ml-2 text-gray-500">({count})</span>:""} {/* Number of reviews*/}
     </div>
   );
-};
+}
 
 export default Rating;

@@ -59,6 +59,12 @@ const productsReducer = (state, action) => {
                     showMessage: action.payload
                 };    
                     
+        case "SET_IMAGE":
+                return {
+                    ...state,
+                    image: action.payload
+                };    
+                    
      
         default:
             break;

@@ -12,7 +12,7 @@ const CartItems = () => {
   //   calculate all products price in total and set in state 
    useEffect(() => {
     const total = state.cartProducts.reduce(
-        (acc, product) => acc + product.price * product.quantity,0
+        (acc, product) => acc + (product.price - (product.price/100 *product.discountPercentage)) * product.quantity,0
     );
     setTotalPrice(total);
 }, [state.cartProducts]); 
@@ -55,15 +55,15 @@ const CartItems = () => {
           </div>
           <div className='flex justify-between items-center border-b border-dotted p-2'>
             <h1 className='text-xl'>Discount</h1>
-            <p>${totalPrice >= 100? ((totalPrice/100)*10 ).toFixed(2): ((totalPrice/100)*5).toFixed(2)}</p>
+            <p>${totalPrice >= 500? ((totalPrice/100)*10 ).toFixed(2): ((totalPrice/100)*5).toFixed(2)}</p>
           </div>
           <div className='flex justify-between items-center border-b border-dotted p-2'>
             <h1 className='text-xl'>shipping</h1>
-            <p>${((totalPrice/100)*10).toFixed(2)}</p>
+            <p>${((totalPrice/100)*5).toFixed(2)}</p>
           </div>
           <div className='flex justify-between items-center border-b border-dotted p-2'>
             <h1 className='text-xl'>Sub Total</h1>
-            <p>${(totalPrice - (totalPrice >= 100? (totalPrice/100)*10 : ((totalPrice/100)*5)) + (totalPrice/100)*10).toFixed(2)}</p>
+            <p>${(totalPrice - (totalPrice >= 500? (totalPrice/100)*10 : ((totalPrice/100)*5)) + (totalPrice/100)*5).toFixed(2)}</p>
           </div>
           <button className='w-full p-2 bg-blue-400 text-center text-white font-bold text-lg rounded'>
               CheckOut

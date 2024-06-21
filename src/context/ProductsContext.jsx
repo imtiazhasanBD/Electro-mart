@@ -9,7 +9,8 @@ const initialState = {
      cartProducts: [],
      relatedProducts: [],
      favoriteProducts: [],
-     showMessage: 'Product has Added To Cart'
+     showMessage: 'Product has Added To Cart',
+     image: ''
     
 }
 
@@ -20,10 +21,10 @@ const ProductsProvider = ({children}) => {
      useEffect(() => {
         
        try {
-        fetch("https://fakestoreapi.com/products")
+        fetch('https://dummyjson.com/products')
         .then((res) => res.json())
         .then((data) => {
-            dispatch({type: "API_DATA", payload: data})
+            dispatch({type: "API_DATA", payload: data.products})
         })
        } catch (error) {
         dispatch({type: "API_DATA_ERROR"})
@@ -40,5 +41,11 @@ const ProductsProvider = ({children}) => {
 }
 
 
+    fetch('https://dummyjson.com/products')
+    .then(res => res.json())
+    .then(data => console.log(data.products[29]))
+
 
 export default ProductsProvider;
+
+

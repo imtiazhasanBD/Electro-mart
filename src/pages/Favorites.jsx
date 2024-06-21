@@ -48,11 +48,11 @@ const Favorites = () => {
                     </button>
                   </td>
                   <td className='py-3 px-4 flex items-center gap-4'>
-                    <img src={product.image} alt={product.title} className='w-[40px] h-[40px] object-cover' />
+                    <img src={product.thumbnail} alt={product.title} className='w-[40px] h-[40px] object-cover' />
                     <p className='truncate w-48'>{product.title}</p>
                   </td>
                   <td className='py-3 px-4'>${product.price}</td>
-                  <td className='py-3 px-4'>In Stock</td>
+                  <td className='py-3 px-4'>{product.availabilityStatus}</td>
                   <td className='py-3 px-4'>
                     <button
                       onClick={() => AddToCart(product)}

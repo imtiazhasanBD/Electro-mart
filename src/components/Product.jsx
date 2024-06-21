@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 
 
 const Product = ({product}) => {
-  const {id,title, image, description, price, category, rating} = product;
+  const {id,title, images, description, price, category, rating, thumbnail} = product;
   const { state ,dispatch} = useContext(ProductsContext);
 
   // Product Add To Cart
@@ -16,13 +16,12 @@ const Product = ({product}) => {
     
    } 
 
-  
 
   return (
 <div className="product h-[300px] bg-white drop-shadow-2xl border p-2 flex flex-col gap-4">
     <div className='h-[50%]'>
     <Link to={`/preview/${title}`} state={{product}}>
-      <img className='image w-full h-[100%] object-cover p-2' src={image} alt="" />
+      <img className='image w-full h-[100%] object-cover p-2' src={thumbnail} alt="" />
       </Link>
     </div>
     <div>

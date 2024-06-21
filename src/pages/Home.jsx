@@ -13,7 +13,6 @@ const Home = () => {
     const filtered = state.products[0].filter(product =>product.title.toLowerCase().includes(search.toLowerCase())
     );
     dispatch({type: "PRODUCT_FILTER", payload: filtered})
-    setSearch("");
   }
 
 
