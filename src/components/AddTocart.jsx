@@ -22,11 +22,14 @@ const AddTocart = ({product}) => {
       <img className='w-[90px] h-[100px] border rounded py-3' src={thumbnail} alt="" />
       </Link>
         <div>
-          <h1 className='text-lg font-bold'>{title.substring(0,30) + "..."}</h1>
+          <h1 className='text-lg font-bold'>{title}</h1>
           <p>{description.substring(0,40) + "..."}</p>
         </div>
       </td>
-      <td>${(price - (price/100 * discountPercentage)).toFixed(2)}</td>
+      <td>
+          <p className='line-through text-gray-400'>${price.toFixed(2)}</p>
+          <p className='text-lg font-semibold'>${(price - (price/100 * discountPercentage)).toFixed(2)}</p>
+      </td>
       <td>{quantity}</td>
       <td>${((price - (price/100 * discountPercentage))*quantity).toFixed(2)}</td>
       <td>

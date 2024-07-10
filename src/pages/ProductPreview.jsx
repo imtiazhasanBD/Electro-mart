@@ -7,13 +7,15 @@ import Rating from '../components/Rating';
 import { toast } from 'react-toastify';
 import { FaUserCircle } from "react-icons/fa";
 import dayjs from 'dayjs';
+import LoadingScreen from '../components/LoadingScreen';
+
 
 
 
 const ProductPreview = () => {
  
    const location = useLocation();
-   const  {id,title, images, description, price, category, rating, reviews, thumbnail,brand, discountPercentage,dimensions,weight,shippingInformation,warrantyInformation, returnPolicy,stock,sku} = location.state.product;
+   const  {id,title, images, description, price, category, rating, reviews, thumbnail,brand, discountPercentage,dimensions,weight,shippingInformation,warrantyInformation, returnPolicy,stock,sku} = location.state.product || {};
    const { state ,dispatch} = useContext(ProductsContext);
    const [activeTab, setActiveTab] = useState('description');
 
@@ -21,16 +23,27 @@ const ProductPreview = () => {
 
 // Related Products Add
   useEffect(() => {
-    const relatedProducts = state.products[0].filter(product =>product.category.toLowerCase().includes(category.toLowerCase()) && product.id !== id);
-    dispatch({type: "RELETER_PRODUCTS", payload: relatedProducts});
-    dispatch({type: "SET_IMAGE", payload: thumbnail});
-  }, [category, id])
-  
+    if (category && id) {
+      const relatedProducts = state.products[0]?.filter(product => 
+        product.category.toLowerCase().includes(category.toLowerCase()) && product.id !== id
+      );
+      if (relatedProducts) {
+        dispatch({ type: "RELETER_PRODUCTS", payload: relatedProducts });
+        dispatch({type: "SET_IMAGE", payload: thumbnail});
+      }
+    }
+  }, [category, id, state.products, dispatch]);
 
   // Product AddToCart 
   const AddToCart = () => {
-    dispatch({type: "ADD_TO_CART", payload: {product: location.state.product, quantity: 1}});
-    toast.success("The product has been added to the cart");
+     const product = location.state.product;
+
+    if(state.isLogin) {
+      dispatch({type: "ADD_TO_CART", payload: {product: product, quantity: 1}});
+      toast.success("The product has been added to the cart");
+      } 
+      dispatch({type: "SET_MODEL" , payload: true});
+      
    } 
 
    
@@ -38,17 +51,28 @@ const ProductPreview = () => {
    const AddToFavorite = () => {
       const product = location.state.product;
       
-      if (!state.favoriteProducts.some(product => product.id === id)) {
-        dispatch({ type: "ADD_TO_FAVORITES", payload: product });
-        toast.success("The product has been added to the wishlist");
-      } else {
-        toast.warning("Already in Wishlist");
-      }
+        if(state.isLogin) {     
+    if (!state.favoriteProducts.some(product => product.id === id)) {
+      dispatch({ type: "ADD_TO_FAVORITES", payload: product });
+      toast.success("The product has been added to the wishlist");
+    } else {
+      toast.warning("Already in Wishlist");
+    }
+  }
+    dispatch({type: "SET_MODEL" , payload: true});
    } 
 
+    
+   // loading state
+  if (!location.state || !state.products[0]) {
+    return <LoadingScreen/> 
+  }
+
+  
   return (
-    <div className="ml-[70px] flex justify-center px-4 sm:px-8 md:px-12 lg:px-20 py-10">
-      <div className="max-w-screen-lg w-full">
+     
+         <div className=" flex justify-center px-4 sm:px-8 md:px-12 lg:px-20 py-5">
+      <div className=" lg:w-[90%] w-full">
         <div className="path-link mb-6 text-gray-600 text-sm">
          <Link to="/"><span className="hover:text-blue-500 cursor-pointer">Home</span></Link> / 
           <span className="hover:text-blue-500 cursor-pointer"> {category}</span> / 
@@ -57,7 +81,7 @@ const ProductPreview = () => {
 
         <section className="product-item grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
           {/* Product image */}
-          <div className="products-image relative bg-white shadow-lg rounded-lg h-[70vh] flex flex-col justify-between p-5">
+          <div className="products-image relative bg-white shadow-lg rounded-lg h-[60vh] md:h-[70vh] flex flex-col justify-between p-5">
             <img  src={state.image} alt={title} className="image w-full h-[100%]  rounded-md mb-4" />
             
             <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-2">
@@ -73,7 +97,7 @@ const ProductPreview = () => {
             <Rating rating={rating} count={reviews.length} />
             <div className='flex gap-2 items-center text-center'>
               <p className="line-through text-gray-500 text-lg">${price}</p>
-              <p className="text-4xl font-semibold text-blue-600">${(price - (price/100 * discountPercentage)).toFixed()}</p>
+              <p className="text-4xl font-semibold text-blue-600">${(price - (price/100 * discountPercentage)).toFixed(2)}</p>
             </div>
             <p className="text-gray-700 leading-relaxed">{description.length > 310? description.substring(0,345) + "..." : description}</p>
 
@@ -207,6 +231,7 @@ const ProductPreview = () => {
         </section>
       </div>
     </div>
+      
   );
 }
 

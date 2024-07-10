@@ -2,15 +2,26 @@ import { useState, useEffect, createContext, useReducer } from "react";
 import reducer from '../reducer/productsReducer';
 
 export const ProductsContext = createContext({});
+
+
+const getLocalData = () => {
+    const data = localStorage.getItem('appState');
+    return data ? JSON.parse(data) : {};
+  };
+
 const initialState = {
-     isLoading: false,
-     isError: false,
-     products: [],
-     cartProducts: [],
-     relatedProducts: [],
-     favoriteProducts: [],
-     showMessage: 'Product has Added To Cart',
-     image: ''
+    isLoading: false,
+    isError: false,
+    products: [],
+    cartProducts: getLocalData().cartProducts || [],
+    saleProducts: [],
+    relatedProducts: [],
+    favoriteProducts: getLocalData().favoriteProducts || [],
+    showMessage: 'Product has Added To Cart',
+    image: '',
+    isModelOpen: false,
+    isLogin: getLocalData().isLogin ?? false,
+    avatar: getLocalData().avatar || ''
     
 }
 
@@ -31,8 +42,9 @@ const ProductsProvider = ({children}) => {
        }
      },[])
     
-    
-   
+     useEffect(() => {
+        localStorage.setItem('appState', JSON.stringify(state))
+     },[state])
 
          return  <ProductsContext.Provider value={{state, dispatch}}>
                     {children}
@@ -41,11 +53,4 @@ const ProductsProvider = ({children}) => {
 }
 
 
-    fetch('https://dummyjson.com/products')
-    .then(res => res.json())
-    .then(data => console.log(data.products[29]))
-
-
 export default ProductsProvider;
-
-

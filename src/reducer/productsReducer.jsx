@@ -48,6 +48,11 @@ const productsReducer = (state, action) => {
                     ...state,
                     favoriteProducts: [...state.favoriteProducts, action.payload],
                 };
+        case "ADD_SALE_PRODUCTS":
+                return {
+                    ...state,
+                    saleProducts: [...state.saleProducts, action.payload],
+                };
         case "REMOVE_FROM_FAVORITES":
                 return {
                     ...state,
@@ -63,6 +68,23 @@ const productsReducer = (state, action) => {
                 return {
                     ...state,
                     image: action.payload
+                };    
+        case "SET_MODEL":
+                return {
+                    ...state,
+                    isModelOpen: action.payload
+                };    
+                    
+        case "SET_LOGIN":
+                return {
+                    ...state,
+                    isLogin: action.payload
+                };    
+                    
+        case "SET_AVATAR":
+                return {
+                    ...state,
+                    avatar: action.payload
                 };    
                     
      

@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 .scrollbar-custom::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 2px;
+    height: 2px;
   }
   
   .scrollbar-custom::-webkit-scrollbar-thumb {
@@ -27,4 +27,19 @@
     font-size: 0.875rem !important;
   }
 
-  
+  ul .active {
+    border-bottom: 3px solid #3b82f6;
+  }
+
+  /* Add this to your CSS file */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
+}
+
+body{
+  background-color:#f3f4f6;
+}

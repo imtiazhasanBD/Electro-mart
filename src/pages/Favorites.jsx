@@ -24,7 +24,7 @@ const Favorites = () => {
  
   return (
 
-    <div className='ml-[80px]  mx-auto w-11/12 p-8'>
+    <div className='lg:ml-[80px]  mx-auto w-11/12 lg:p-8 p-2'>
       <h2 className='text-gray-600 mb-4'>Home / <span className='text-blue-500'>Wishlist</span></h2>
       <h1 className='text-3xl font-bold text-blue-400 mb-6'>My Wishlist</h1>
       {state.favoriteProducts.length > 0 ? (

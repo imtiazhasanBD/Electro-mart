@@ -49,19 +49,19 @@ const CartItems = () => {
         </div>
 
         <div className='lg:w-[35%] w-full h-fit border rounded p-5 space-y-2'>
-          <div className='flex justify-between items-center border-b border-dotted p-2'>
+          <div className='flex justify-between items-center p-2'>
             <h1 className='text-xl'>Sub Total</h1>
             <p>${totalPrice.toFixed(2)}</p>
           </div>
-          <div className='flex justify-between items-center border-b border-dotted p-2'>
+          <div className='flex justify-between items-center p-2'>
             <h1 className='text-xl'>Discount</h1>
-            <p>${totalPrice >= 500? ((totalPrice/100)*10 ).toFixed(2): ((totalPrice/100)*5).toFixed(2)}</p>
+            <p>-${totalPrice >= 500? ((totalPrice/100)*10 ).toFixed(2): ((totalPrice/100)*5).toFixed(2)}</p>
           </div>
-          <div className='flex justify-between items-center border-b border-dotted p-2'>
+          <div className='flex justify-between items-center border-b-2 border-dotted p-2'>
             <h1 className='text-xl'>shipping</h1>
             <p>${((totalPrice/100)*5).toFixed(2)}</p>
           </div>
-          <div className='flex justify-between items-center border-b border-dotted p-2'>
+          <div className='flex justify-between items-center p-2'>
             <h1 className='text-xl'>Sub Total</h1>
             <p>${(totalPrice - (totalPrice >= 500? (totalPrice/100)*10 : ((totalPrice/100)*5)) + (totalPrice/100)*5).toFixed(2)}</p>
           </div>
