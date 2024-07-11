@@ -39,7 +39,7 @@ const Header = () => {
             </button>
           </NavLink>
 
-          <NavLink to="cart">
+          <NavLink to="favs">
             <button className='flex justify-center items-center gap-2 text-sm'>
               <span className='relative'>
               <IoHeartOutline className='text-2xl'/> 
