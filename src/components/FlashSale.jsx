@@ -6,6 +6,9 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { FaHeart } from "react-icons/fa"
 import {CiSearch,CiShoppingCart} from 'react-icons/ci';
+import { useAddToCart } from './useAddToCart';
+import { useAddToFavs } from './useAddToFavs';
+import { Link } from 'react-router-dom';
 
 const FlashSale = () => {
 
@@ -18,9 +21,14 @@ const FlashSale = () => {
         }
       }, [state.products, dispatch]);
     
-   
+    // Product Add To Cart
+    const addToCart = useAddToCart();
 
-    
+     // Product Add To Favs
+    const addTofavs = useAddToFavs() 
+
+    ///
+    const productZero = state.saleProducts && state.saleProducts.length > 0 ? state.saleProducts[0] : null;
 
   return (
     <div className='bg-white md:mx-8 my-2'>
@@ -42,9 +50,10 @@ const FlashSale = () => {
         state.saleProducts[0] && (
             state.saleProducts[0].slice(0,6).map((product) => (
             <div key={product.id} className="flash-sale-product bg-gray-100 p-3 relative">
-           
-                <img src={product.thumbnail} alt="" />
-                <FaHeart className='absolute top-0 right-0 mt-2 mr-2 text-gray-300 hover:text-gray-500 cursor-pointer' />
+                <Link to={`/preview/${product.title}`} state={{product}}>
+                  <img src={product.thumbnail} alt="" />
+                </Link>
+                <FaHeart onClick={() => addTofavs(product)} className='absolute top-0 right-0 mt-2 mr-2 text-gray-300 hover:text-gray-500 cursor-pointer' />
                 <div className='flex flex-col gap-2'>
                     <p className='text-lg font-semibold'>{product.title}</p>
                     <p className="price text-xl font-bold text-blue-500">${(product.price - (product.price/100 * product.discountPercentage)).toFixed(2)}
@@ -54,7 +63,7 @@ const FlashSale = () => {
                         <p className=" text-red-500 text-sm">{product.discountPercentage}%</p>
                     </span>
                 </div>
-                <CiShoppingCart size={'1.4rem'} className='absolute top-6 right-0 mt-2 mr-2 text-gray-400 cursor-pointer hover:text-gray-600'/>
+                <CiShoppingCart onClick={() => addToCart(product)} size={'1.4rem'} className='absolute top-6 right-0 mt-2 mr-2 text-gray-400 cursor-pointer hover:text-gray-600'/>
              </div>
               ))
         )
@@ -62,11 +71,13 @@ const FlashSale = () => {
     </div>
 
     {/* flash sell product for mobile */}
-    <div className='flex w-[80%] p-4 md:hidden lg:hidden'>
+    <div className='flex w-full p-4 md:hidden lg:hidden'>
        {
         state.saleProducts[0] && (
         <section className=' border-r-2'>
+            <Link to={`/preview/${state.saleProducts[0][0].title}`} state={{product: productZero[0]}}>
             <img src={state.saleProducts[0][0].thumbnail} alt="" />
+            </Link>
             <div>
                 <span className='flex gap-2'>
                     <p className="line-through text-gray-500 text-sm">${state.saleProducts[0][0].price}</p>
@@ -83,7 +94,9 @@ const FlashSale = () => {
         state.saleProducts[0] &&(
             state.saleProducts[0].slice(1,4).map((product) => (
                 <div key={uuidv4()} className="flash-sale-product flex gap-2 pb-4">
-                    <img src={product.thumbnail} alt="" className='w-16 h-16' />
+                    <Link to={`/preview/${product.title}`} state={{product}} className='w-16'>
+                        <img src={product.thumbnail} alt="" className='w-16 h-16' />
+                    </Link>
                     <div className=''>
                     <span className='flex gap-2'>
                       <p className="line-through text-gray-500 text-xs">${product.price}</p>

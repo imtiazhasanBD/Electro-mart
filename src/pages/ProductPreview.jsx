@@ -8,6 +8,8 @@ import { toast } from 'react-toastify';
 import { FaUserCircle } from "react-icons/fa";
 import dayjs from 'dayjs';
 import LoadingScreen from '../components/LoadingScreen';
+import { useAddToCart } from '../components/useAddToCart';
+import { useAddToFavs } from '../components/useAddToFavs';
 
 
 
@@ -35,39 +37,17 @@ const ProductPreview = () => {
   }, [category, id, state.products, dispatch]);
 
   // Product AddToCart 
-  const AddToCart = () => {
      const product = location.state.product;
+     const addToCart = useAddToCart();
 
-    if(state.isLogin) {
-      dispatch({type: "ADD_TO_CART", payload: {product: product, quantity: 1}});
-      toast.success("The product has been added to the cart");
-      } 
-      dispatch({type: "SET_MODEL" , payload: true});
-      
-   } 
-
-   
 // Product Add To Wishlist
-   const AddToFavorite = () => {
-      const product = location.state.product;
-      
-        if(state.isLogin) {     
-    if (!state.favoriteProducts.some(product => product.id === id)) {
-      dispatch({ type: "ADD_TO_FAVORITES", payload: product });
-      toast.success("The product has been added to the wishlist");
-    } else {
-      toast.warning("Already in Wishlist");
-    }
-  }
-    dispatch({type: "SET_MODEL" , payload: true});
-   } 
-
+  const addTofavs = useAddToFavs() 
     
    // loading state
   if (!location.state || !state.products[0]) {
     return <LoadingScreen/> 
   }
-
+console.log(location.state)
   
   return (
      
@@ -103,10 +83,10 @@ const ProductPreview = () => {
 
             {/* Add to cart and wishlist buttons */}
             <div className="space-x-4 flex font-bold">
-              <button onClick={() => {AddToCart()}} className="bg-blue-500 text-white py-3 px-6 rounded-lg shadow-md hover:bg-blue-600 focus:outline-none transition duration-300 ease-in-out">
+              <button onClick={() => addToCart(product)} className="bg-blue-500 text-white py-3 px-6 rounded-lg shadow-md hover:bg-blue-600 focus:outline-none transition duration-300 ease-in-out">
                 Add To Cart
               </button>
-              <button onClick={() => AddToFavorite()} className="bg-gray-300 text-gray-800 py-3 px-6 rounded-lg shadow-md hover:bg-gray-400 focus:outline-none transition duration-300 ease-in-out">
+              <button onClick={() => addTofavs(product)} className="bg-gray-300 text-gray-800 py-3 px-6 rounded-lg shadow-md hover:bg-gray-400 focus:outline-none transition duration-300 ease-in-out">
                 Add To Wishlist
               </button>
             </div>
