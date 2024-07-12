@@ -1,7 +1,7 @@
-import { useContext, useEffect, useState } from 'react';
-import { auth, db } from '../components/firebase';
-import { doc, getDoc } from 'firebase/firestore';
-import { ProductsContext } from '../context/ProductsContext';
+import { useContext, useEffect, useState } from "react";
+import { auth, db } from "../components/firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { ProductsContext } from "../context/ProductsContext";
 
 const useFetchUserData = (defaultValue = true) => {
   const { state, dispatch } = useContext(ProductsContext);
@@ -13,7 +13,7 @@ const useFetchUserData = (defaultValue = true) => {
         if (user) {
           const docRef = doc(db, "Users", user.uid);
           const docSnap = await getDoc(docRef);
-          
+
           if (docSnap.exists()) {
             setUserInfo(docSnap.data());
             dispatch({ type: "SET_AVATAR", payload: docSnap.data().avatar });
