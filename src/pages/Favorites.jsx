@@ -24,7 +24,7 @@ const Favorites = () => {
   };
 
   return (
-    <div className="lg:ml-[80px]  mx-auto w-11/12 lg:p-8 p-2">
+    <div className=" mx-auto lg:mx-8 lg:p-8 p-2 bg-white mb-2">
       <h2 className="text-gray-600 mb-4">
         Home / <span className="text-blue-500">Wishlist</span>
       </h2>

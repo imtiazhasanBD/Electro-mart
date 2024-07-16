@@ -64,7 +64,7 @@ const ProductPreview = () => {
   }
 
   return (
-    <div className=" flex justify-center px-4 sm:px-8 md:px-12 lg:px-20 py-5">
+    <div className=" flex justify-center px-4 sm:px-8 md:px-12 lg:px-20 py-5 bg-white lg:mx-8 lg:mb-2">
       <div className=" lg:w-[90%] w-full">
         <div className="path-link mb-6 text-gray-600 text-sm">
           <Link to="/">
@@ -80,7 +80,7 @@ const ProductPreview = () => {
 
         <section className="product-item grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
           {/* Product image */}
-          <div className="products-image relative bg-white shadow-lg rounded-lg h-[60vh] md:h-[70vh] flex flex-col justify-between p-5">
+          <div className="products-image relative bg-white shadow-lg rounded-lg sm:*h-[60vh] md:h-[70vh] flex flex-col justify-between p-5">
             <img
               src={state.image}
               alt={title}

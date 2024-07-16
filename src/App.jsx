@@ -12,6 +12,8 @@ import SignUp from './pages/SignUp'
 import Profile from './pages/Profile'
 import Header from './components/Header'
 import CartItems from './components/CartItems'
+import Footer from './components/Footer'
+import ScrollToTop from './components/ScrollToTop'
 
 
 function App() {
@@ -21,6 +23,7 @@ function App() {
   return (
      
     <BrowserRouter>
+      <ScrollToTop/>
       <Header/>
       <Routes>
         <Route path='/' element={<Home/>}/>
@@ -32,6 +35,7 @@ function App() {
         <Route path='/user'element={<Profile/>} />
       </Routes>
       {!state.isLogin && (state.isModelOpen && <Model/>)}
+      <Footer/>
       <Sidebar/>
     </BrowserRouter>
 

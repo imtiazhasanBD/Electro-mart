@@ -47,7 +47,7 @@ const Product = ({ product }) => {
       </div>
       <div>
         <h1 className="name text-lg font-semibold">{title.substring(0, 15)}</h1>
-        <p className="desc text-sm">{description.substring(0, 50) + "..."}</p>
+        <p className="desc text-smz">{description.substring(0, 50) + "..."}</p>
         <div className="price-buy flex justify-between items-center pr-2 mt-2">
           <div className="flex gap-1 items-center">
             <p className="line-through text-gray-500 text-sm">${price}</p>

@@ -3,10 +3,16 @@ import { BsArrowLeft } from "react-icons/bs";
 import { ProductsContext } from "../context/ProductsContext";
 import AddTocart from "./AddTocart";
 import { v4 as uuidv4 } from "uuid";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import { RxCross2 } from "react-icons/rx";
+import { IoRemoveOutline } from "react-icons/io5";
+import { IoMdAdd } from "react-icons/io";
+import { toast } from "react-toastify";
+import { useAddToCart } from "./useAddToCart";
+import AddTocartMobile from "./AddTocartMobile";
 
 const CartItems = () => {
-  const { state } = useContext(ProductsContext);
+  const { state, dispatch } = useContext(ProductsContext);
   const [totalPrice, setTotalPrice] = useState(0); // total price cal state
 
   //   calculate all products price in total and set in state
@@ -22,14 +28,15 @@ const CartItems = () => {
   }, [state.cartProducts]);
 
   return (
-    <div className="w-11/12 m-auto py-10 relative">
+    <div className="m-auto p-4 lg:mx-8 md:mx-8 relative bg-white mb-2">
       <h1 className="text-3xl font-bold text-blue-400">Shopping Cart</h1>
       <p className="text-ml text-gray-400">
         There are {state.cartProducts.length} Items in your cart
       </p>
       {state.cartProducts.length > 0 ? (
-        <section className="flex justify-between lg:flex-row flex-col items-center space-x-10 mt-10">
-          <div className="w-[65%] sm:w-full space-y-3">
+        <section className="flex justify-between lg:flex-row flex-col items-center lg:space-x-10 mt-10">
+          {/* for medium and lagre screen */}
+          <div className="w-[65%] sm:w-full space-y-3 hidden md:block lg:block sm:block">
             <table className="w-full">
               <thead className="border-b text-center bg-blue-400 text-white">
                 <tr className="font-bold">
@@ -53,6 +60,14 @@ const CartItems = () => {
                 <span>Continue Shopping</span>
               </button>
             </NavLink>
+          </div>
+          {/* Mobile screen*/}
+
+          <div className="sm:hidden px-4 divide-y divide-gray-200 border-b border-t border-gray-200 mb-10">
+            {state.cartProducts &&
+              state.cartProducts.map((product) => (
+                <AddTocartMobile product={product} key={uuidv4()} />
+              ))}
           </div>
 
           <div className="lg:w-[35%] w-full h-fit border rounded p-5 space-y-2">
