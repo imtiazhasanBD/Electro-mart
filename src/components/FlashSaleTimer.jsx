@@ -33,13 +33,13 @@ const FlashSaleTimer = () => {
   return (
     <section className=" flex items-center justify-center gap-4 w-full text-center bg-blue-500 p-4 text-white font-semibold md:w-full md:m-auto md:bg-white md:text-xl">
       <p className="md:text-black md:font-bold">Ending in</p>
-      <p className="bg-white py-1 px-2 text-black font-bold md:bg-blue-500 md:text-white">
+      <p className={`bg-white py-1 px-2 font-bold md:bg-blue-500  ${timeLeft.hours < 1? 'text-red-600' : 'text-black md:text-white'}`}>
         {timeLeft.hours}
       </p>
-      <p className="bg-white py-1 px-2 text-black font-bold md:bg-blue-500 md:text-white">
+      <p className={`bg-white py-1 px-2 font-bold md:bg-blue-500  ${timeLeft.hours < 1? 'text-red-600' : 'text-black md:text-white'}`}>
         {timeLeft.minutes}
       </p>
-      <p className="bg-white py-1 px-2 text-black font-bold md:bg-blue-500 md:text-white">
+      <p className={`bg-white py-1 px-2 font-bold md:bg-blue-500  ${timeLeft.hours < 1? 'text-red-600' : 'text-black md:text-white'}`}>
         {timeLeft.seconds}
       </p>
     </section>

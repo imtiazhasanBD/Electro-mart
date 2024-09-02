@@ -32,7 +32,14 @@ const productsReducer = (state, action) => {
         case "PRODUCT_FILTER":
             return {
                 ...state,
-                products: [ action.payload]
+                searchProducts: [ action.payload]
+
+            }
+            
+        case "PRODUCT_SEARCH":
+            return {
+                ...state,
+                searchProducts: [ action.payload]
 
             }
             
@@ -86,7 +93,12 @@ const productsReducer = (state, action) => {
                     ...state,
                     avatar: action.payload
                 };    
-                    
+
+        case "sort_Criteria":
+            return {
+                ...state,
+                sortCriteria: action.payload
+            };               
      
         default:
             break;

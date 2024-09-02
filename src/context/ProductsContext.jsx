@@ -13,9 +13,10 @@ const initialState = {
     isLoading: false,
     isError: false,
     products: [],
+    searchProducts: getLocalData().searchProducts || [],
     cartProducts: getLocalData().cartProducts || [],
     saleProducts: [],
-    relatedProducts: [],
+    relatedProducts: getLocalData().relatedProducts || [],
     favoriteProducts: getLocalData().favoriteProducts || [],
     showMessage: 'Product has Added To Cart',
     image: '',
@@ -27,7 +28,7 @@ const initialState = {
 
 const ProductsProvider = ({children}) => {
 
-    const [state , dispatch] = useReducer(reducer, initialState)
+    const [state , dispatch] = useReducer(reducer, initialState);
 
      useEffect(() => {
         

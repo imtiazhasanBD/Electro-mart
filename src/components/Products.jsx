@@ -7,7 +7,7 @@ import Pagination from "./Pagination";
 const Products = () => {
   const { state, dispatch } = useContext(ProductsContext);
   const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 10;
+  const postsPerPage = 15;
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentProducts = state.products[0].slice(indexOfFirstPost, indexOfLastPost);
@@ -19,7 +19,7 @@ const Products = () => {
         <p className="text-xl">Just For You</p>
         <button className="text-blue-500">View All Products</button>
       </div>
-      <div className="products  grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-5 md:grid-cols-4 gap-5 p-4 z-20">
+      <div className="products grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 md:grid-cols-4 gap-5 md:p-4 z-20">
         {currentProducts &&
           currentProducts.map((product) => (
             <Product product={product} key={uuidv4()} />

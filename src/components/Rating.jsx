@@ -1,13 +1,13 @@
 import React from "react";
 
-const Rating = ({ rating, count }) => {
+const Rating = ({ rating, count, className }) => {
   const maxStars = 5;
   const fullStars = Math.floor(rating);
   const halfStar = rating % 1 >= 0.5;
   const emptyStars = maxStars - fullStars - (halfStar ? 1 : 0);
 
   return (
-    <div className="flex items-center text-[24px]">
+    <div className={`lex items-center text-[24px] ${className}`}>
       {[...Array(fullStars)].map((_, i) => (
         <span key={`full-${i}`} className="text-yellow-500">
           &#9733;

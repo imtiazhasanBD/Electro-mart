@@ -14,7 +14,7 @@ const Profile = () => {
   async function handleLogout() {
     try {
       await auth.signOut();
-      window.location.href = "/";
+    //  window.location.href = "/";
       dispatch({ type: "SET_AVATAR", payload: "" });
       console.log("User logged out successfully!");
       dispatch({ type: "SET_LOGIN", payload: false });

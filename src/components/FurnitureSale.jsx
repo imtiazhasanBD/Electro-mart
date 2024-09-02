@@ -45,7 +45,7 @@ const FurnitureSale = () => {
               className=" p-3 relative border-2 border-gray-100"
             >
               <Link to={`/preview/${product.title}`} state={{ product }}>
-                <img src={product.thumbnail} alt="" className="m-auto"/>
+                <img src={product.thumbnail} alt="" className="m-auto hover:scale-110 duration-300"/>
               </Link>
               <FaHeart
                 onClick={() => addTofavs(product)}

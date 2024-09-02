@@ -1,57 +1,73 @@
 import React, { useContext, useState } from "react";
-import { CiSearch, CiShoppingCart } from "react-icons/ci";
+import { CiSearch } from "react-icons/ci";
 import { ProductsContext } from "../context/ProductsContext";
-
 import { IoHeartOutline } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
 import { BsCart3 } from "react-icons/bs";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [search, setSearch] = useState("");
   const { state, dispatch } = useContext(ProductsContext);
+  const navigate = useNavigate();
 
-  // product search from home
+  // Handle search input change
+  const handleSearchChange = (event) => {
+    setSearch(event.target.value);
+  };
+
+  // Handle search button click
   const handleSearch = () => {
-    const filtered = state.products[0].filter((product) =>
-      product.title.toLowerCase().includes(search.toLowerCase())
-    );
-    dispatch({ type: "PRODUCT_FILTER", payload: filtered });
+    if (search.trim()) {
+      // Fetch search results
+      fetch(`https://dummyjson.com/products/search?q=${search}`)
+        .then((res) => res.json())
+        .then((data) => {
+          // Dispatch search results to the context
+          dispatch({ type: "PRODUCT_SEARCH", payload: data.products });
+
+          // Navigate to search results page
+          navigate(`/search/${search}`);
+        })
+        .catch((error) => {
+          dispatch({ type: "API_DATA_ERROR" });
+        });
+    }
   };
 
   return (
-    <header className=" bg-blue-500 flex justify-between sm:gap-10 items-center sm:px-12 py-3 sticky top-0 z-10 px-5">
+    <header className="bg-blue-500 flex justify-between sm:gap-10 items-center sm:px-12 py-3 sticky top-0 z-10 px-5">
       <NavLink to="/">
         <div className="md:text-3xl sm:text-md text-xl font-bold text-white hidden sm:block">
-          Electro-mart
+          ElectroMart
         </div>
       </NavLink>
+
       <div className="flex justify-between items-center px-5 py-2 bg-gray-100 rounded sm:w-[60%] w-full">
         <input
-          onChange={() => setSearch(event.target.value)}
+          onChange={handleSearchChange}
           type="text"
           value={search}
           placeholder="Search product"
-          className="bg-transparent outline-0"
+          className="bg-transparent outline-0 w-full"
         />
         <button
-          onClick={() => {
-            handleSearch();
-          }}
+          onClick={handleSearch}
           className="text-blue-600 font-bold text-lg"
         >
           <CiSearch />
         </button>
       </div>
-      <div className=" gap-8 justify-center items-center text-lg text-white font-bold hidden sm:flex">
+
+      <div className="gap-8 justify-center items-center text-lg text-white font-bold hidden sm:flex">
         <NavLink to="/user">
           <button className="flex justify-center items-center gap-2 text-sm">
             {!state.avatar ? (
               <CgProfile className="text-3xl" />
             ) : (
-              <img src={state.avatar} className="w-8 h-8 rounded-full" />
+              <img src={state.avatar} className="w-8 h-8 rounded-full" alt="User Avatar" />
             )}
-            Account
+            <p className="hidden md:block">Account</p>
           </button>
         </NavLink>
 
@@ -77,8 +93,8 @@ const Header = () => {
                   {state.cartProducts.length}
                 </span>
               )}
-            </span>{" "}
-            Cart
+            </span>
+            <p className="hidden md:block">Cart</p>
           </button>
         </NavLink>
       </div>

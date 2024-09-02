@@ -19,6 +19,7 @@ import {
   getDownloadURL,
 } from "firebase/storage";
 import Header from "../components/Header";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
   const { state, dispatch } = useContext(ProductsContext);
@@ -100,14 +101,16 @@ const SignUp = () => {
   };
 
   return (
-    <div className="h-screen w-full bg-gray-400 flex justify-center items-center">
-      <div className="w-[100%] h-[100%] bg-slate-100 flex lg:w-[75%] lg:h-[75%] md:w-[75%] md:h-[75%]">
-        <div className="banner w-[45%] h-full hidden md:block">
-          <img src={shoppingImage} alt="" className="w-full h-full" />
+    <div className="h-screen w-full bg-gray-200 flex justify-center">
+      <div className="w-[100%] h-[100%] bg-slate-100 flex lg:w-[75%] lg:h-[80%] md:w-[75%] md:h-[75%] md:my-8">
+        <div className="banner w-[45%] h-full hidden md:flex flex-col items-center justify-center bg-blue-500 text-white text-center p-4 gap-4">
+          <h1 className="text-5xl font-bold">Hello</h1>
+          <p className="text-3xl font-bold">Looks like you're new here!</p>
+          <p className="text-xl">Sign up with your email to get started</p>
         </div>
         <div className="login w-[100%] md:w-[60%] h-full flex flex-col gap-14 text-center items-center pt-10">
           <h1 className="text-lg md:text-2xl font-bold text-blue-400">
-            Create your Electro-mart Account
+            Create your ElectroMart Account
           </h1>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-[80%]">
@@ -179,16 +182,26 @@ const SignUp = () => {
                 PNG, JPG, GIF up to 10MB
               </p>
             </label>
-
-            <a className="text-sm text-blue-400 hover:underline cursor-pointer">
-              already registered?
-            </a>
+            <span>
+              <p className="text-gray-500 text-sm">
+                By clicking "SIGN UP" I agree to{" "}
+                <a className="text-blue-500">Terms of Use </a>and{" "}
+                <a className="text-blue-500">Privacy Policy</a>
+              </p>
+            </span>
             <button
               type="submit"
               className="p-2 bg-blue-400 text-white font-bold rounded-lg"
             >
-              SIGN IN
+              SIGN UP
             </button>
+            <p className="text-sm text-gray-400  font-semibold">
+              Existing user?
+              <Link to="/user/login" className="text-blue-500 hover:underline">
+                {" "}
+                Log In
+              </Link>
+            </p>
           </form>
         </div>
       </div>

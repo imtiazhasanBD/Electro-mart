@@ -34,21 +34,22 @@ const ProductPreview = () => {
     sku,
   } = location.state.product || {};
   const { state, dispatch } = useContext(ProductsContext);
-  const [activeTab, setActiveTab] = useState("description");
+  const [activeTab, setActiveTab] = useState("reviews");
 
   // Related Products Add
   useEffect(() => {
-    if (category && id) {
-      const relatedProducts = state.products[0]?.filter(
-        (product) =>
-          product.category.toLowerCase().includes(category.toLowerCase()) &&
-          product.id !== id
-      );
-      if (relatedProducts) {
-        dispatch({ type: "RELETER_PRODUCTS", payload: relatedProducts });
-        dispatch({ type: "SET_IMAGE", payload: thumbnail });
-      }
-    }
+    try {
+      fetch(`https://dummyjson.com/products/category/${category}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data) {
+          dispatch({ type: "RELETER_PRODUCTS", payload: data });
+          dispatch({ type: "SET_IMAGE", payload: thumbnail });
+        }
+      })
+     } catch (error) {
+      dispatch({type: "API_DATA_ERROR"})
+     }
   }, [category, id, state.products, dispatch]);
 
   // Product AddToCart
@@ -64,8 +65,8 @@ const ProductPreview = () => {
   }
 
   return (
-    <div className=" flex justify-center px-4 sm:px-8 md:px-12 lg:px-20 py-5 bg-white lg:mx-8 lg:mb-2">
-      <div className=" lg:w-[90%] w-full">
+    <div className=" flex justify-center px-4 sm:px-8 md:px-12 lg:px-10 py-5 bg-white lg:mx-8 lg:mb-2">
+      <div className="w-full">
         <div className="path-link mb-6 text-gray-600 text-sm">
           <Link to="/">
             <span className="hover:text-blue-500 cursor-pointer">Home</span>
@@ -315,9 +316,9 @@ const ProductPreview = () => {
           </h2>
 
           {/* Releted Products Add section */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
-            {state.relatedProducts[0] &&
-              state.relatedProducts[0].map((product) => (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-6 ">
+            {state.relatedProducts[0].products &&
+              state.relatedProducts[0].products.map((product) => (
                 <Product product={product} key={uuidv4()} />
               ))}
           </div>

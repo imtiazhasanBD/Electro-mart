@@ -19,6 +19,8 @@ const AddTocart = ({ product }) => {
     category,
     rating,
     discountPercentage,
+    brand,
+    shippingInformation
   } = product;
   const { state, dispatch } = useContext(ProductsContext);
 
@@ -52,9 +54,14 @@ const AddTocart = ({ product }) => {
             alt=""
           />
         </Link>
-        <div>
-          <h1 className="text-lg font-bold">{title}</h1>
-          <p>{description.substring(0, 40) + "..."}</p>
+        <div className="text-left">
+          <h1 className="text-md font-bold">{title}</h1>
+          <p className="text-sm">{description.substring(0, 40) + "..."}</p>
+          <p className="text-xs pt-1">Category: {category}</p>
+          <p className="text-xs">
+            Brand: {typeof brand === 'undefined' ? 'No Brand' : brand}
+          </p>
+          <p className="text-xs text-green-500 font-semibold pt-1">{shippingInformation}</p>
         </div>
       </td>
       <td>
