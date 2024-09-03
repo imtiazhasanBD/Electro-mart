@@ -30,25 +30,9 @@ const mediaQuery = window.matchMedia("(min-width: 768px)");
   // Product Add To Cart
   const addToCart = useAddToCart();
 
-  const handleAddToCart = () => {
-    if (!state.isLogin && !mediaQuery.matches) {
-      navigate("/user/login");
-    } else {
-      addToCart(product);
-    }
-  };
 
   // Product Add To Wishlist
   const addTofavs = useAddToFavs();
-  
-    const handleAddToFavs = () => {
-      if (!state.isLogin && !mediaQuery.matches) {
-        navigate("/user/login");
-      } else {
-        addTofavs(product);
-      }
-    };
-  
 
       
 
@@ -66,7 +50,7 @@ const mediaQuery = window.matchMedia("(min-width: 768px)");
           save {discountPercentage}%
         </p>
         <FaHeart
-          onClick={handleAddToFavs}
+          onClick={() => addTofavs(product)}
           className="absolute top-0 right-0 mt-2 mr-2 text-gray-300 hover:text-gray-500 cursor-pointer"
         />
       </div>
@@ -93,7 +77,7 @@ const mediaQuery = window.matchMedia("(min-width: 768px)");
       </div>
        <button
          
-            onClick={handleAddToCart}
+            onClick={() => addToCart(product)}
             className="bg-[#f7f7f7] text-black font-semibold p-2 border-[1px] border-gray-200 hover:border-skyText rounded-full text-sm hover:bg-blue-500 hover:text-white duration-200 cursor-pointer"
           >
             ADD TO CART

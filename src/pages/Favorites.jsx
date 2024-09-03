@@ -4,18 +4,15 @@ import { v4 as uuidv4 } from "uuid";
 import { ProductsContext } from "../context/ProductsContext";
 import { MdOutlineRemoveCircleOutline } from "react-icons/md";
 import { toast } from "react-toastify";
+import { useAddToCart } from "../components/useAddToCart";
 
 const Favorites = () => {
   const { state, dispatch } = useContext(ProductsContext);
 
   // Add to cart from wishlist
-  const AddToCart = (product) => {
-    dispatch({
-      type: "ADD_TO_CART",
-      payload: { product: product, quantity: 1 },
-    });
-    toast.success("The product has been added to the cart");
-  };
+    const addToCart = useAddToCart();
+  
+
 
   // Remove Product from wishlist
   const removeFromFavorites = (id) => {
@@ -64,7 +61,7 @@ const Favorites = () => {
                   <td className="py-3 px-4">{product.availabilityStatus}</td>
                   <td className="py-3 px-4">
                     <button
-                      onClick={() => AddToCart(product)}
+                      onClick={() => addToCart(product)}
                       className="text-sm font-bold bg-blue-500 text-white py-1 px-3 rounded-lg shadow-md hover:bg-blue-600 focus:outline-none transition duration-300 ease-in-out"
                     >
                       Add to Cart
