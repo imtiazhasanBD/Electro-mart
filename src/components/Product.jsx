@@ -40,6 +40,15 @@ const mediaQuery = window.matchMedia("(min-width: 768px)");
 
   // Product Add To Wishlist
   const addTofavs = useAddToFavs();
+  
+    const handleAddToFavs = () => {
+      if (!state.isLogin && !mediaQuery.matches) {
+        navigate("/user/login");
+      } else {
+        addTofavs(product);
+      }
+    };
+  
 
       
 
@@ -57,7 +66,7 @@ const mediaQuery = window.matchMedia("(min-width: 768px)");
           save {discountPercentage}%
         </p>
         <FaHeart
-          onClick={() => addTofavs(product)}
+          onClick={handleAddToFavs}
           className="absolute top-0 right-0 mt-2 mr-2 text-gray-300 hover:text-gray-500 cursor-pointer"
         />
       </div>

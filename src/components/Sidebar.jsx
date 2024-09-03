@@ -54,7 +54,12 @@ const Sidebar = () => {
         </li>
 
         <li>
-          <NavLink to={"/orders"}>
+        <NavLink
+            to={state.isLogin ? "/orders" : "/user/login"}
+            className={({ isActive }) => 
+              isActive && location.pathname !== "/user/login" ? 'active' : ''
+            }
+          >
             <button>
               <CiDeliveryTruck size={"1.5rem"} />
             </button>

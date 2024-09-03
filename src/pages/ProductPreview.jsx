@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ProductsContext } from "../context/ProductsContext";
 import Product from "../components/Product";
 import { v4 as uuidv4 } from "uuid";
@@ -35,7 +35,7 @@ const ProductPreview = () => {
   } = location.state.product || {};
   const { state, dispatch } = useContext(ProductsContext);
   const [activeTab, setActiveTab] = useState("reviews");
-
+  const navigate = useNavigate();
   // Related Products Add
   useEffect(() => {
     try {
@@ -52,12 +52,34 @@ const ProductPreview = () => {
      }
   }, [category, id, state.products, dispatch]);
 
+  // Check if the screen width is above 768px (or any threshold you prefer)
+const mediaQuery = window.matchMedia("(min-width: 768px)");
+
   // Product AddToCart
   const product = location.state.product;
+  // Product Add To Cart
   const addToCart = useAddToCart();
+
+  const handleAddToCart = () => {
+    if (!state.isLogin && !mediaQuery.matches) {
+      navigate("/user");
+    } else {
+      addToCart(product);
+    }
+  };
 
   // Product Add To Wishlist
   const addTofavs = useAddToFavs();
+  
+    const handleAddToFavs = () => {
+      if (!state.isLogin && !mediaQuery.matches) {
+        navigate("/user");
+      } else {
+        addTofavs(product);
+      }
+    };
+  
+
 
   // loading state
   if (!location.state || !state.products[0]) {
@@ -122,13 +144,13 @@ const ProductPreview = () => {
             {/* Add to cart and wishlist buttons */}
             <div className="space-x-4 flex font-bold">
               <button
-                onClick={() => addToCart(product)}
+                onClick={handleAddToCart}
                 className="bg-blue-500 text-white py-3 px-6 rounded-lg shadow-md hover:bg-blue-600 focus:outline-none transition duration-300 ease-in-out"
               >
                 Add To Cart
               </button>
               <button
-                onClick={() => addTofavs(product)}
+                onClick={handleAddToFavs}
                 className="bg-gray-300 text-gray-800 py-3 px-6 rounded-lg shadow-md hover:bg-gray-400 focus:outline-none transition duration-300 ease-in-out"
               >
                 Add To Wishlist

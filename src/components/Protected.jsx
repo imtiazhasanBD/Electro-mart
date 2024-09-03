@@ -5,7 +5,7 @@ import { Navigate } from "react-router-dom";
 const Protected = ({ children }) => {
   const { state } = useContext(ProductsContext);
   if (!state.isLogin) {
-    return <Navigate to="/user" replace />;
+    return <Navigate to="/user/login" replace />;
   }
   return children;
 };
