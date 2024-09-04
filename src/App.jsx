@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, {useState, useEffect , useContext } from 'react';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import Home from './pages/Home';
 import Card from './pages/Card';
@@ -23,9 +23,36 @@ const App = () => {
   const { state } = useContext(ProductsContext);
   const location = useLocation();
 
+  // State to track if the screen is larger than 768px
+  const [isDesktop, setIsDesktop] = useState(window.matchMedia("(min-width: 768px)").matches);
+
+/*     const mediaQuery = window.matchMedia("(min-width: 768px)");
+    mediaQuery.addEventListener("change", (event) => {
+        setIsDesktop(event.matches);
+    }); */
+    
+    useEffect(() => {
+      const mediaQuery = window.matchMedia("(min-width: 768px)");
   
+      // Event listener to update the state on media query change
+      const handleMediaChange = (event) => {
+        setIsDesktop(event.matches);
+      };
+  
+      // Attach the listener
+      mediaQuery.addEventListener("change", handleMediaChange);
+  
+      // Cleanup listener on component unmount
+      return () => {
+        mediaQuery.removeEventListener("change", handleMediaChange);
+      };
+    }, []);
+  
+  
+
+
   // List of paths where the footer should be hidden
-  const pathsToHideFooter = [];
+  const pathsToHideFooter = ["/user"];
 
   // Check if the current path matches any path where the footer should be hidden
   const shouldHideFooter = pathsToHideFooter.includes(location.pathname);
@@ -33,7 +60,7 @@ const App = () => {
   return (
     <>
       <ScrollToTop />
-      <Header />
+      {isDesktop? <Header/> : !shouldHideFooter && <Header/>}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={<Card />} />
@@ -46,7 +73,7 @@ const App = () => {
         <Route path="/user" element={<Protected><Profile/></Protected>} />
       </Routes>
       {!state.isLogin && state.isModelOpen && <Model />}
-      {!shouldHideFooter && <Footer />}
+      {isDesktop? <Footer/>:!shouldHideFooter && <Footer />}
       <Sidebar />
     </>
   );
