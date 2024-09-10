@@ -38,8 +38,54 @@ const Profile = () => {
   return (
     <div className="">
       {userInfo ? (
-         <div className="h-screen bg-white">
-            <div className="bg-gray-300 md:pl-[80px] w-full hidden md:block">
+         <div className="h-screen bg-white md:flex">
+           <div className="w-1/4 bg-white pt-4 text-gray-500 hidden md:block">
+                 <ul className="p-5 text-xl flex flex-col justify-between gap-6">
+                    <li>
+                       <button className="flex flex-row justify-center items-center gap-8 hover:text-blue-400">
+                         <ImProfile />
+                         <span className="font-semibold text-lg">Edit Profile</span>
+                       </button>
+                    </li>
+                    <li>
+                       <button className="flex flex-row justify-center items-center gap-8 hover:text-blue-400">
+                         <IoLocationOutline />
+                         <span className="font-semibold text-lg">Edit Location</span>
+                       </button>
+                    </li>
+                    <li>
+                       <button className="flex flex-row justify-center items-center gap-8 hover:text-blue-400">
+                         <IoChatboxEllipsesOutline />
+                         <span className="font-semibold text-lg">Chat With Us</span>
+                       </button>
+                    </li>
+                    <li>
+                       <button className="flex flex-row justify-center items-center gap-8 hover:text-blue-400">
+                         <MdOutlineReviews />
+                         <span className="font-semibold text-lg">My Reviews</span>
+                       </button>
+                    </li>
+                    <li>
+                       <button className="flex flex-row justify-center items-center gap-8 hover:text-blue-400">
+                         <MdOutlineSupportAgent />
+                         <span className="font-semibold text-lg">Help & Support</span>
+                       </button>
+                    </li>
+                    <li>
+                       <button className="flex flex-row justify-center items-center gap-8 hover:text-blue-400">
+                         <MdOutlinePayments />
+                         <span className="font-semibold text-lg">Payment Option</span>
+                       </button>
+                    </li>
+                    <li>
+                       <button onClick={handleLogout} className="flex flex-row justify-center items-center gap-8 hover:text-blue-400">
+                         <LuLogOut />
+                         <span className="font-semibold text-lg">Logout</span>
+                       </button>
+                    </li>
+                 </ul>
+            </div>
+            <div className=" bg-gray-100  w-full hidden md:block">
               <div>
                 <h1 className="text-3xl p-5">My Account</h1>
               </div>

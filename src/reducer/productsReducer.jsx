@@ -81,6 +81,11 @@ const productsReducer = (state, action) => {
                     ...state,
                     isModelOpen: action.payload
                 };    
+        case "SET_LOADING":
+                return {
+                    ...state,
+                    isLoading: action.payload
+                };    
                     
         case "SET_LOGIN":
                 return {

@@ -7,7 +7,7 @@ const Rating = ({ rating, count, className }) => {
   const emptyStars = maxStars - fullStars - (halfStar ? 1 : 0);
 
   return (
-    <div className={`lex items-center text-[24px] ${className}`}>
+    <div className={`lex items-center  ${className}`}>
       {[...Array(fullStars)].map((_, i) => (
         <span key={`full-${i}`} className="text-yellow-500">
           &#9733;

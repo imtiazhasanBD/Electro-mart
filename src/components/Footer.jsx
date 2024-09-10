@@ -25,7 +25,7 @@ import paymentIcons from '../assets/images/payments icons/download.webp'
 const Footer = () => {
   return (
      <div className=''>
-        <section className='p-4 mb-2 md:mb-2 lg:mb-2 bg-white text-blue-400 md:mx-8 flex justify-center items-center flex-col  md:flex-row lg:flex-row text-center gap-5 '>
+        <section className='p-4 mb-2 md:mb-2 lg:mb-2 bg-white text-blue-400 md:mx-8 flex justify-center items-center flex-col lg:flex-row text-center gap-5 '>
                 <span className='flex flex-col gap-3'>
                 <GiWorld className='m-auto text-3xl '/>
                 <p className='font-bold'>Worldwide shipping</p>

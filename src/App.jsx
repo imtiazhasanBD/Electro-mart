@@ -52,10 +52,12 @@ const App = () => {
 
 
   // List of paths where the footer should be hidden
-  const pathsToHideFooter = ["/user"];
+  const pathsToHideFooter = ["/user", "/preview"];
 
   // Check if the current path matches any path where the footer should be hidden
   const shouldHideFooter = pathsToHideFooter.includes(location.pathname);
+  const isProductPreviewPage = location.pathname.includes('/preview/');
+
 
   return (
     <>
@@ -74,7 +76,7 @@ const App = () => {
       </Routes>
       {!state.isLogin && state.isModelOpen && <Model />}
       {isDesktop? <Footer/>:!shouldHideFooter && <Footer />}
-      <Sidebar />
+      {!isProductPreviewPage && <Sidebar />}
     </>
   );
 };

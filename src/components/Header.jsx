@@ -5,6 +5,7 @@ import { IoHeartOutline } from "react-icons/io5";
 import { CgProfile } from "react-icons/cg";
 import { BsCart3 } from "react-icons/bs";
 import { NavLink, useNavigate } from "react-router-dom";
+import { BiArrowBack } from "react-icons/bi";
 
 const Header = () => {
   const [search, setSearch] = useState("");
@@ -34,9 +35,24 @@ const Header = () => {
         });
     }
   };
+  // To hide the back botton on homepage
+  const isHomePage = location.pathname === '/';
+
+  const handleBackClick = () => {
+    navigate(-1); // Go back to the previous page
+  };
+
 
   return (
-    <header className="bg-blue-500 flex justify-between sm:gap-10 items-center sm:px-12 py-3 sticky top-0 z-10 px-5">
+    <header className={`bg-blue-500 flex justify-between sm:gap-10 items-center sm:px-12 py-3 sticky top-0 z-10 ${!isHomePage? 'pr-5 pl-2' : 'px-5'}`}>
+     {!isHomePage && <NavLink
+        onClick={handleBackClick}
+        className="text-white  m-auto text-center pr-2  md:hidden"
+      >
+        <button className="">
+          <BiArrowBack size={"1.7rem"} />
+        </button>
+      </NavLink>}
       <NavLink to="/">
         <div className="md:text-3xl sm:text-md text-xl font-bold text-white hidden sm:block">
           ElectroMart
@@ -65,7 +81,11 @@ const Header = () => {
             {!state.avatar ? (
               <CgProfile className="text-3xl" />
             ) : (
-              <img src={state.avatar} className="w-8 h-8 rounded-full" alt="User Avatar" />
+              <img
+                src={state.avatar}
+                className="w-8 h-8 rounded-full"
+                alt="User Avatar"
+              />
             )}
             <p className="hidden md:block">Account</p>
           </button>

@@ -21,7 +21,7 @@ const Model = () => {
       onClick={() => dispatch({ type: "SET_MODEL", payload: false })}
     >
       <div onClick={(e) => e.stopPropagation()}
-        className=" w-[60%] h-2/3  bg-white fixed top-2/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 flex rounded-lg"
+        className=" w-[60%] h-3/4  bg-white fixed top-2/4 left-2/4 transform -translate-x-1/2 -translate-y-1/2 flex rounded-lg"
      >
          <SignIn/>
       </div>

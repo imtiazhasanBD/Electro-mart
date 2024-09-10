@@ -98,7 +98,7 @@ const SignIn = () => {
             </button>
           </form>
           <p className="font-semibold text-gray-400">New member?
-            <Link to="/user/register" className=" text-blue-500 hover:underline"> Register here</Link>
+            <Link onClick={() => dispatch({ type: "SET_MODEL", payload: false })} to="/user/register" className=" text-blue-500 hover:underline"> Register here</Link>
           </p>
         </div>
         {/*User sign up section*/}

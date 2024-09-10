@@ -5,6 +5,7 @@ import { ProductsContext } from "../context/ProductsContext";
 import { Link, useParams } from "react-router-dom";
 import { GoSortDesc } from "react-icons/go";
 import { TbFilterSearch } from "react-icons/tb";
+import LoadingScreen from "./LoadingScreen";
 
 const ProductSearch = () => {
   const { state, dispatch } = useContext(ProductsContext);
@@ -56,11 +57,20 @@ const ProductSearch = () => {
   };
 
   useEffect(() => {
-    setFilterProducts(state.searchProducts[0]); // Ensure products are reset when state changes
+    // Start loading
+    dispatch({ type: "SET_LOADING", payload: true });
+    
+    // Simulate a delay for loading 
+    setTimeout(() => {
+      setFilterProducts(state.searchProducts[0]); 
+      dispatch({ type: "SET_LOADING", payload: false }); // Stop loading 
+    }, 1000); 
   }, [state.searchProducts]);
 
   const handleFilterProducts = (value) => {
     setFilterValue(value);
+    dispatch({ type: "SET_LOADING", payload: true }); // Start loading before filtering
+
     let sortedProducts = [...state.searchProducts[0]].filter(
       (product) =>
         product.brand === value ||
@@ -74,9 +84,13 @@ const ProductSearch = () => {
           : false) ||
         (value === "201" ? product.price > 200 : false)
     );
-    setFilterProducts(sortedProducts);
-    console.log(value);
+
+    setTimeout(() => {
+      setFilterProducts(sortedProducts);
+      dispatch({ type: "SET_LOADING", payload: false }); // Stop loading 
+    }, 500); 
   };
+
 
   const sortOptions = [
     "Best Match",
@@ -85,6 +99,12 @@ const ProductSearch = () => {
     "Low To High",
     "High To Low",
   ];
+
+
+  // loading state
+  if (state.isLoading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <div className="flex flex-col lg:flex-row lg:mx-8 gap-4 mb-2 mt-3">
