@@ -15,6 +15,7 @@ import { MdOutlineReviews } from "react-icons/md";
 import { MdOutlineSupportAgent } from "react-icons/md";
 import { MdOutlinePayments } from "react-icons/md";
 import { LuLogOut } from "react-icons/lu";
+import { CiDeliveryTruck } from "react-icons/ci";
 import UserProfileForMobile from "../components/UserProfileForMobile";
 
 
@@ -52,6 +53,12 @@ const Profile = () => {
                          <IoLocationOutline />
                          <span className="font-semibold text-lg">Edit Location</span>
                        </button>
+                    </li>
+                    <li>
+                       <NavLink to="/orders" className="flex flex-row justify-center items-center gap-8 hover:text-blue-400 float-left">
+                         <CiDeliveryTruck />
+                         <span className="font-semibold text-lg">My Orders</span>
+                       </NavLink>
                     </li>
                     <li>
                        <button className="flex flex-row justify-center items-center gap-8 hover:text-blue-400">

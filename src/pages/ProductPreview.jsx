@@ -109,6 +109,14 @@ const ProductPreview = () => {
     return <LoadingScreen />;
   }
 
+  const copyUrlToClipboard = () => {
+    const url = window.location.href; // Current page URL
+    navigator.clipboard.writeText(url).then(() => {
+      toast.info('URL copied to clipboard!');
+    }).catch((err) => {
+     toast.error('Failed to copy URL: ', err);
+    });}
+
   return (
     <div className=" flex justify-center px-4 sm:px-8 md:px-12 lg:px-10 py-5 bg-white lg:mx-8 lg:mb-2">
       <div className="w-full">
@@ -139,7 +147,7 @@ const ProductPreview = () => {
               } hover:text-gray-500 cursor-pointer`}
             />
             <IoIosShareAlt
-              onClick={() => addTofavs(product)}
+              onClick={copyUrlToClipboard}
               className={`absolute top-0 right-0 mt-12 mr-3 text-3xl text-gray-300 hover:text-gray-500 cursor-pointer`}
             />
 

@@ -6,6 +6,7 @@ import { CgProfile } from "react-icons/cg";
 import { BsCart3 } from "react-icons/bs";
 import { NavLink, useNavigate } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
+import logo from "../assets/images/logo2.png";
 
 const Header = () => {
   const [search, setSearch] = useState("");
