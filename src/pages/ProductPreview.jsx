@@ -132,9 +132,9 @@ const ProductPreview = () => {
           /<span className="text-blue-500"> {title}</span>
         </div>
 
-        <section className="product-item grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        <section className="product-item grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
           {/* Product image */}
-          <div className="products-image relative bg-white shadow-lg rounded-lg sm:*h-[60vh] md:h-[70vh] flex flex-col justify-between p-5 min-h-[70%]">
+          <div className="products-image relative bg-white shadow-lg rounded-lg sm:*h-[60vh] md:h-[60vh] lg:h-[70vh] flex flex-col justify-between p-5 min-h-[70%]">
             <img
               src={image}
               alt={title}
@@ -193,7 +193,7 @@ const ProductPreview = () => {
               </p>
             </div>
             {/* Add to cart and wishlist buttons */}
-            <div className="md:space-x-4 flex font-bold w-full fixed lg:static z-50 bottom-0 right-0 text-center bg-white">
+            <div className="lg:space-x-4 flex font-bold w-full fixed lg:static z-20 bottom-0 right-0 text-center bg-white">
               <NavLink
                 to={"/"}
                 className="bg-slate-200 text-blue-500 m-auto text-center p-2 hidden"
@@ -205,13 +205,13 @@ const ProductPreview = () => {
               </NavLink>
               <button
                 onClick={() => addToCart(product)}
-                className="w-full bg-blue-500 text-white py-4 px-6 md:rounded-lg shadow-md hover:bg-blue-600 focus:outline-none transition duration-300 ease-in-out"
+                className="w-full bg-blue-500 text-white py-4 px-6 lg:rounded-lg shadow-md hover:bg-blue-600 focus:outline-none transition duration-300 ease-in-out"
               >
                 Add To Cart
               </button>
               <button
                 onClick={() => addTofavs(product)}
-                className="w-full bg-orange-500 text-white py-4 px-6 md:rounded-lg shadow-md hover:bg-orange-700 focus:outline-none transition duration-300 ease-in-out"
+                className="w-full bg-orange-500 text-white py-4 px-6 lg:rounded-lg shadow-md hover:bg-orange-700 focus:outline-none transition duration-300 ease-in-out"
               >
                 Buy Now
               </button>
@@ -227,6 +227,16 @@ const ProductPreview = () => {
         <section className="details mb-12">
           <div className="flex flex-col">
             <div className="flex space-x-8 border-b pb-2 mb-6 font-bold">
+            <div
+                className={`cursor-pointer ${
+                  activeTab === "reviews"
+                    ? "text-blue-500 border-b-2 border-blue-500"
+                    : "text-gray-500"
+                } hover:text-blue-500`}
+                onClick={() => setActiveTab("reviews")}
+              >
+                Reviews
+              </div>
               <div
                 className={`cursor-pointer ${
                   activeTab === "description"
@@ -246,16 +256,6 @@ const ProductPreview = () => {
                 onClick={() => setActiveTab("additionalInfo")}
               >
                 Additional information
-              </div>
-              <div
-                className={`cursor-pointer ${
-                  activeTab === "reviews"
-                    ? "text-blue-500 border-b-2 border-blue-500"
-                    : "text-gray-500"
-                } hover:text-blue-500`}
-                onClick={() => setActiveTab("reviews")}
-              >
-                Reviews ({reviews.length})
               </div>
             </div>
             <div>
@@ -358,26 +358,45 @@ const ProductPreview = () => {
                 </div>
               )}
               {activeTab === "reviews" && (
-                <div>
-                  {reviews.map((review) => (
-                    <div key={uuidv4()} className="flex gap-5 mb-10">
-                      <div className="profile md:text-3xl mt-1">
-                        <FaUserCircle />
-                      </div>
-                      <div className="comment">
-                        <div className="flex gap-5 justify-center items-center text-center">
-                          <h1 className="font-bold md:text-lg">
-                            {review.reviewerName}
-                          </h1>
-                          <p className="text-xs md:text-sm text-gray-400">
-                            {dayjs(review.date).format("MMMM D, YYYY h:mm A")}
-                          </p>
+                <div className="md:space-y-10">
+                    <p className="font-semibold text-sm md:text-lg mb-4">Ratings & Reviews of {title}</p>
+                    <section className="flex flex-row justify-between md:justify-normal md:gap-20 md:pr-10 border-b-2 py-4">
+                         <div>
+                          <span className="text-3xl md:text-6xl font-semibold">{rating.toFixed(1)}<span className="text-xl md:text-4xl text-gray-400">/5</span></span>
+                          <Rating rating={rating} className="text-3xl md:text-6xl pt-2"/>
+                          <p className="text-sm md:text-lg text-gray-400 font-semibold">{reviews.length} Ratings</p>
+                         </div>
+                         <div className="">
+                           {reviews.map(review => (
+                              <span key={uuidv4()} className="flex flex-row justify-center items-center text-center gap-5">
+                                 <Rating rating={review.rating} className="text-xl md:text-3xl"/>
+                                  <p>{review.rating}</p>
+                              </span>
+                           ))}
+                         </div>
+                     </section>
+                     <section className="p-2">
+                        {reviews.map((review) => (
+                        <div key={uuidv4()} className="flex gap-5 mb-10">
+                          <div className="profile md:text-3xl mt-1">
+                            <FaUserCircle />
+                          </div>
+                          <div className="comment">
+                            <div className="flex gap-5 justify-center items-center text-center">
+                              <h1 className="font-bold md:text-lg">
+                                {review.reviewerName}
+                              </h1>
+                              <p className="text-xs md:text-sm text-gray-400">
+                                {dayjs(review.date).format("MMMM D, YYYY h:mm A")}
+                              </p>
+                            </div>
+                            <Rating rating={review.rating} />
+                            <p>{review.comment}</p>
+                          </div>
                         </div>
-                        <Rating rating={review.rating} />
-                        <p>{review.comment}</p>
-                      </div>
-                    </div>
-                  ))}
+                          ))}
+                     </section>
+                   
                 </div>
               )}
             </div>

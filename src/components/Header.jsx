@@ -45,7 +45,7 @@ const Header = () => {
 
 
   return (
-    <header className={`bg-blue-500 flex justify-between sm:gap-10 items-center sm:px-12 py-3 sticky top-0 z-10 ${!isHomePage? 'pr-5 pl-2' : 'px-5'}`}>
+    <header className={`bg-blue-500 flex justify-between sm:gap-10 items-center sm:px-12 py-3 sticky top-0 z-50 ${!isHomePage? 'pr-5 pl-2' : 'px-5'}`}>
      {!isHomePage && <NavLink
         onClick={handleBackClick}
         className="text-white  m-auto text-center pr-2  md:hidden"

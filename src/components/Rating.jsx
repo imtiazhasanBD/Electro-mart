@@ -9,11 +9,11 @@ const Rating = ({ rating, count, className }) => {
   return (
     <div className={`lex items-center  ${className}`}>
       {[...Array(fullStars)].map((_, i) => (
-        <span key={`full-${i}`} className="text-yellow-500">
+        <span key={`full-${i}`} className="text-blue-500">
           &#9733;
         </span> // Full star
       ))}
-      {halfStar && <span className="text-yellow-500">&#9734;</span>}{" "}
+      {halfStar && <span className="text-blue-500">&#9734;</span>}{" "}
       {/* Half star*/}
       {[...Array(emptyStars)].map((_, i) => (
         <span key={`empty-${i}`} className="text-gray-300">

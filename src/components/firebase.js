@@ -4,17 +4,20 @@ import { getAuth } from "firebase/auth/cordova";
 import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
+const apiKey = import.meta.env.VITE_APP_GOOGLE_API_KEY;
+
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAmTJSyDUGLj8YswClhX2IawXQn6riJEjA",
-  authDomain: "my-ecommerce-1c0c8.firebaseapp.com",
-  projectId: "my-ecommerce-1c0c8",
-  storageBucket: "my-ecommerce-1c0c8.appspot.com",
-  messagingSenderId: "751017134021",
-  appId: "1:751017134021:web:816537ffee369ce375adac"
+  apiKey: import.meta.env.VITE_GOOGLE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
 
 // Initialize Firebase

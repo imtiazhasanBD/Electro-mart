@@ -3,7 +3,7 @@ import { BsArrowLeft } from "react-icons/bs";
 import { ProductsContext } from "../context/ProductsContext";
 import AddTocart from "../components/AddTocart";
 import { v4 as uuidv4 } from "uuid";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import AddTocartMobile from "../components/AddTocartMobile";
 
 const Card = () => {
@@ -12,6 +12,8 @@ const Card = () => {
   const { state } = useContext(ProductsContext);
   const [totalPrice, setTotalPrice] = useState(0); // total price cal state
   const [totalItems, setTotalItems] = useState(0); // total price cal state
+
+  const navigate = useNavigate();
 
   //   calculate all products price in total and set in state
   useEffect(() => {
@@ -27,7 +29,12 @@ const Card = () => {
      setTotalItems(items);
     
   }, [state.cartProducts]);
-console.log(state.cartProducts)
+
+  const handleCheckout = () => {
+     
+     navigate('/orders')
+  }
+
   return (
     <div className="m-auto p-4 lg:mx-8 md:mx-8 relative bg-white mb-2">
       <h1 className="text-3xl font-bold text-blue-400">Shopping Cart</h1>
@@ -103,7 +110,7 @@ console.log(state.cartProducts)
                 ).toFixed(2)}
               </p>
             </div>
-            <button className="w-full p-2 bg-blue-400 text-center text-white font-bold text-lg rounded">
+            <button onClick={handleCheckout} className="w-full p-2 bg-blue-400 text-center text-white font-bold text-lg rounded">
               CheckOut
             </button>
           </div>
