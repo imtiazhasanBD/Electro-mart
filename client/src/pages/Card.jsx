@@ -32,7 +32,7 @@ const Card = () => {
 
   const handleCheckout = () => {
      
-     navigate('/orders')
+     navigate('/orders');
   }
 
   return (
