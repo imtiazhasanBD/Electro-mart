@@ -1,24 +1,56 @@
 import React, { useContext, useEffect, useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { ProductsContext } from "../context/ProductsContext";
 import { v4 as uuidv4 } from "uuid";
 import LoadingScreen from "../components/LoadingScreen";
+import { auth, db } from "../components/firebase";
+import { setDoc, doc, getDoc } from "firebase/firestore";
 
 const Order = () => {
-  const { state, dispatch } = useContext(ProductsContext);
   const [orderItems, setOrderItems] = useState([]);
+  const [userData, setUserData] = useState(null);
+  const { state, dispatch } = useContext(ProductsContext);
+  const navigate = useNavigate();
+
+    // Monitor authentication state
+    useEffect(() => {
+      const unsubscribe = auth.onAuthStateChanged((user) => {
+          if (user) {
+              setUserData(user);
+          } else {
+              navigate("/user/login");  // Redirect if the user is not logged in
+          }
+      });
+      return () => unsubscribe(); // Cleanup the subscription
+  }, [navigate]);
 
   useEffect(() => {
-    setOrderItems(state.cartProducts);
-  }, [state.cartProducts]);
+    const fetchOrderData = async () => {
+      dispatch({ type: "SET_LOADING", payload: true });
 
-  const totalAmount = orderItems?.reduce(
-    (acc, product) => acc + product.quantity * product.price,
-    0
-  );
+      try {
+        const docRef = doc(db, "orders", userData.email);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const orderData = docSnap.data().orders; // Adjust based on your Firestore structure
+          setOrderItems(orderData);
+        } else {
+          console.log("No orders found for this user.");
+        }
+      } catch (error) {
+        console.error("Error fetching order data:", error);
+      } finally {
+         dispatch({ type: "SET_LOADING", payload: false });
+      }
+    };
+
+    fetchOrderData();
+  }, [userData]);
   
-   if(state.isLoading){
+
+   if(state.isLoading ){
     return <LoadingScreen/>
    }
    
@@ -26,63 +58,65 @@ const Order = () => {
     <div className="m-auto p-4 md:p-10 lg:mx-8 md:mx-8 relative bg-white mb-2">
       <h1 className="text-3xl font-bold text-blue-400 md:mb-10">My Order</h1>
         {orderItems && orderItems.length > 0 ? (
-      <div className="border-x-2 my-4 md:m-10">
-        <section className="bg-gray-200 flex justify-between p-4 items-center">
-          <p className="font-bold text-md hidden md:block">
-            Order ID:{" "}
-            <span className="font-normal">
-              cs_test_b1MFq2C1qOHvjfm7DMMWQ8g5deRSibJZ7FhXyAS...
-            </span>
-          </p>
-          <button className="bg-blue-500 p-2 text-white font-semibold">
-            Track Order
-          </button>
-        </section>
-
-          <>
-            <div className="p-4 mx-2">
-              <p>Your order has shipped and will be with you soon.</p>
-              <p>Order Item Count: {orderItems.length}</p>
-              <p>Payment Status: Paid by Stripe</p>
-              <p>Order Amount: ${totalAmount?.toFixed(2)}</p>
-            </div>
-
-            {orderItems.map((product) => (
-              <div
-                key={product.id || uuidv4()}
-                className="flex justify-between items-center p-4 mx-2 border-b-2"
-              >
-                <div className="flex items-center gap-4">
-                  <Link
-                    to={`/preview/${product.title}`}
-                    state={{ product }}
-                    className="w-28 h-28"
-                  >
-                    <img
-                      src={product.thumbnail}
-                      alt=""
-                      className="w-full h-full object-cover"
-                    />
-                  </Link>
-                  <span className="space-y-1">
-                    <p className="text-lg font-semibold">{product.title}</p>
-                    <p>{product.category}</p>
-                    <button className="bg-blue-500 p-1 px-2 text-white font-semibold">
-                      Buy again
-                    </button>
-                    <p>
-                      Quantity: <span>{product.quantity}</span>
-                    </p>
-                    <p>Price ${product.price}</p>
-                    <p className="text-lg font-semibold">
-                      SubTotal ${(product.quantity * product.price).toFixed(2)}
-                    </p>
+            orderItems.reverse().map(orderItem => (
+              <div key={uuidv4()} className="border-x-2 my-4 md:m-10">
+              <section className="bg-gray-200 flex justify-between p-4 items-center">
+                <p className="font-bold text-md hidden md:block">
+                  Order ID:{" "}
+                  <span className="font-normal">
+                    {orderItem.paymentId}
                   </span>
-                </div>
-              </div>
-            ))}
-          </>
-      </div>
+                </p>
+                <button className="bg-blue-500 p-2 text-white font-semibold">
+                  Track Order
+                </button>
+              </section>
+      
+                <>
+                  <div className="p-4 mx-2">
+                    <p>Your order has shipped and will be with you soon.</p>
+                    <p>Order Item Count: {orderItem.orderItems.length}</p>
+                    <p>Payment Status: Paid by {orderItem.paymentMethod}</p>
+                 
+                  </div>
+      
+                  {orderItem.orderItems.map((product) => (
+                    <div
+                      key={uuidv4()}
+                      className="flex justify-between items-center p-4 mx-2 border-b-2"
+                    >
+                      <div className="flex items-center gap-4">
+                        <Link
+                          to={`/preview/${product.title}`}
+                          state={{ product }}
+                          className="w-28 h-28"
+                        >
+                          <img
+                            src={product.thumbnail}
+                            alt=""
+                            className="w-full h-full object-cover"
+                          />
+                        </Link>
+                        <span className="space-y-1">
+                          <p className="text-lg font-semibold">{product.title}</p>
+                          <p>{product.category}</p>
+                          <button className="bg-blue-500 p-1 px-2 text-white font-semibold">
+                            Buy again
+                          </button>
+                          <p>
+                            Quantity: <span>{product.quantity}</span>
+                          </p>
+                          <p>Price ${product.price}</p>
+                          <p className="text-lg font-semibold">
+                            SubTotal ${(product.quantity * product.price).toFixed(2)}
+                          </p>
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </>
+            </div>
+            ))
         ) : (
           <div>
             <p className="text-gray-600 mt-10">

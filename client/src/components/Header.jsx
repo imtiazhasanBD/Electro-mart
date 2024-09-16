@@ -109,11 +109,9 @@ const Header = () => {
           <button className="flex justify-center items-center gap-2 text-sm">
             <span className="relative">
               <BsCart3 className="text-2xl" />
-              {state.cartProducts.length > 0 && (
                 <span className="px-1 bg-red-500 rounded-full text-xs absolute bottom-3 left-3">
-                  {state.cartProducts.length}
+                  {(state.cartProducts.length === 0)? 0 : state.cartProducts.length}
                 </span>
-              )}
             </span>
             <p className="hidden md:block">Cart</p>
           </button>

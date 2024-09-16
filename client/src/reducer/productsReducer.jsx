@@ -28,6 +28,11 @@ const productsReducer = (state, action) => {
                 cartProducts: filteredUsers
 
             }
+        case "CLEAR_CART":
+            return {
+                ...state,
+                cartProducts: [],
+            };
            
         case "PRODUCT_FILTER":
             return {
