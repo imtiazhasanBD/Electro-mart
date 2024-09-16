@@ -5,6 +5,7 @@ import AddTocart from "../components/AddTocart";
 import { v4 as uuidv4 } from "uuid";
 import { NavLink, useNavigate } from "react-router-dom";
 import AddTocartMobile from "../components/AddTocartMobile";
+import CheckOutBtn from "../components/CheckOutBtn";
 
 const Card = () => {
   
@@ -12,8 +13,6 @@ const Card = () => {
   const { state } = useContext(ProductsContext);
   const [totalPrice, setTotalPrice] = useState(0); // total price cal state
   const [totalItems, setTotalItems] = useState(0); // total price cal state
-
-  const navigate = useNavigate();
 
   //   calculate all products price in total and set in state
   useEffect(() => {
@@ -29,11 +28,6 @@ const Card = () => {
      setTotalItems(items);
     
   }, [state.cartProducts]);
-
-  const handleCheckout = () => {
-     
-     navigate('/orders');
-  }
 
   return (
     <div className="m-auto p-4 lg:mx-8 md:mx-8 relative bg-white mb-2">
@@ -110,9 +104,7 @@ const Card = () => {
                 ).toFixed(2)}
               </p>
             </div>
-            <button onClick={handleCheckout} className="w-full p-2 bg-blue-400 text-center text-white font-bold text-lg rounded">
-              CheckOut
-            </button>
+            <CheckOutBtn/>
           </div>
         </section>
       ) : (

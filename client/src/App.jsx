@@ -18,6 +18,8 @@ import Protected from './components/Protected';
 import SignIn from './pages/SignIn';
 import Login from './pages/Login';
 import UnprotectedRoute from './components/UnprotectedRoute';
+import Success from './pages/Success';
+import Cancel from './pages/Cancel';
 
 const App = () => {
   const { state } = useContext(ProductsContext);
@@ -73,6 +75,8 @@ const App = () => {
         <Route path="/user/login" element={<UnprotectedRoute><Login/></UnprotectedRoute>} />
         <Route path="/user/register" element={<UnprotectedRoute><SignUp/></UnprotectedRoute>} />
         <Route path="/user" element={<Protected><Profile/></Protected>} />
+        <Route path="/success" element={<Success/>} />
+        <Route path="/cancel" element={<Cancel/>} />
       </Routes>
       {!state.isLogin && state.isModelOpen && <Model />}
       {isDesktop? <Footer/>:!shouldHideFooter && <Footer />}
