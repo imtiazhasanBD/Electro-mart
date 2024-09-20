@@ -27,8 +27,16 @@
     font-size: 0.875rem !important;
   }
 
-  ul .active {
+  nav .active {
     border-bottom: 3px solid #3b82f6;
+  }
+
+  ul .active {
+    background-color: #e2e8f0;
+    color: #3b82f6;
+  }
+  ul .active:hover{
+    color: #3b82f6;
   }
 
   /* Add this to your CSS file */

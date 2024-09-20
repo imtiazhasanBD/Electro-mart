@@ -14,7 +14,7 @@ import { auth } from '../components/firebase';
 import useFetchUserData from '../components/fetchUser';
 const SignIn = () => {
     const { state, dispatch } = useContext(ProductsContext);
-    useFetchUserData(false);
+
   
     const [user, setUser] = useState({
       email: "",

@@ -1,33 +1,34 @@
 import { useContext, useEffect, useState } from "react";
 import { auth, db } from "../components/firebase";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import { ProductsContext } from "../context/ProductsContext";
 
-const useFetchUserData = (defaultValue = true) => {
-  const { state, dispatch } = useContext(ProductsContext);
+const useFetchUserData = () => {
   const [userInfo, setUserInfo] = useState(null);
-
+  const { state, dispatch } = useContext(ProductsContext);
+  
   useEffect(() => {
     const fetchUserData = async () => {
-      auth.onAuthStateChanged(async (user) => {
+      auth.onAuthStateChanged((user) => {
         if (user) {
-          const docRef = doc(db, "Users", user.uid);
-          const docSnap = await getDoc(docRef);
-
-          if (docSnap.exists()) {
-            setUserInfo(docSnap.data());
-            dispatch({ type: "SET_AVATAR", payload: docSnap.data().avatar });
-          } else {
-            console.log("No such document!");
-          }
-        } else if (defaultValue) {
-          console.log("User is not logged in");
+          // Real-time listener for user data changes
+          const userDocRef = doc(db, "Users", user.uid);
+          const unsubscribe = onSnapshot(userDocRef, (docSnap) => {
+            if (docSnap.exists()) {
+              setUserInfo(docSnap.data());
+              dispatch({ type: "SET_AVATAR", payload: docSnap.data().avatar });
+            } else {
+              console.log("No such document!");
+            }
+          });
+          
+          return () => unsubscribe(); // Cleanup listener on unmount
         }
       });
     };
 
     fetchUserData();
-  }, [dispatch]);
+  }, []);
 
   return userInfo;
 };

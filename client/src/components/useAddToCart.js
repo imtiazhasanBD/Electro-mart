@@ -25,7 +25,7 @@ export const useAddToCart = () => {
 
   const addToCart = (product) => {
     if (!state.isLogin && !isDesktop) {
-      navigate("/user"); // Redirect to login if user is not logged in and on mobile
+      navigate("/user/profile"); // Redirect to login if user is not logged in and on mobile
     } else {
       if (state.isLogin) {
         dispatch({ type: "ADD_TO_CART", payload: { product, quantity: 1 } });

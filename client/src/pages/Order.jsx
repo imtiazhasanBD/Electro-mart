@@ -6,59 +6,28 @@ import { v4 as uuidv4 } from "uuid";
 import LoadingScreen from "../components/LoadingScreen";
 import { auth, db } from "../components/firebase";
 import { setDoc, doc, getDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
+import useFetchOrderData from "../components/fetchOrderData";
 
 const Order = () => {
-  const [orderItems, setOrderItems] = useState([]);
-  const [userData, setUserData] = useState(null);
+  const orderItems = useFetchOrderData();
   const { state, dispatch } = useContext(ProductsContext);
-  const navigate = useNavigate();
 
-    // Monitor authentication state
-    useEffect(() => {
-      const unsubscribe = auth.onAuthStateChanged((user) => {
-          if (user) {
-              setUserData(user);
-          } else {
-              navigate("/user/login");  // Redirect if the user is not logged in
-          }
-      });
-      return () => unsubscribe(); // Cleanup the subscription
-  }, [navigate]);
 
-  useEffect(() => {
-    const fetchOrderData = async () => {
-      dispatch({ type: "SET_LOADING", payload: true });
-
-      try {
-        const docRef = doc(db, "orders", userData.email);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-          const orderData = docSnap.data().orders; // Adjust based on your Firestore structure
-          setOrderItems(orderData);
-        } else {
-          console.log("No orders found for this user.");
-        }
-      } catch (error) {
-        console.error("Error fetching order data:", error);
-      } finally {
-         dispatch({ type: "SET_LOADING", payload: false });
-      }
-    };
-
-    fetchOrderData();
-  }, [userData]);
   
 
    if(state.isLoading ){
     return <LoadingScreen/>
    }
+
+   console.log(state.isLoading);
+   
    
   return (
     <div className="m-auto p-4 md:p-10 lg:mx-8 md:mx-8 relative bg-white mb-2">
       <h1 className="text-3xl font-bold text-blue-400 md:mb-10">My Order</h1>
         {orderItems && orderItems.length > 0 ? (
-            orderItems.reverse().map(orderItem => (
+            orderItems.map(orderItem => (
               <div key={uuidv4()} className="border-x-2 my-4 md:m-10">
               <section className="bg-gray-200 flex justify-between p-4 items-center">
                 <p className="font-bold text-md hidden md:block">

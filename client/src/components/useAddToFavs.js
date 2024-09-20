@@ -25,7 +25,7 @@ export const useAddToFavs = () => {
 
     const addToFavs = (product) => {
         if (!state.isLogin && !isDesktop) {
-            navigate("/user"); // Redirect to login if user is not logged in and on mobile
+            navigate("/user/profile"); // Redirect to login if user is not logged in and on mobile
           } else {
         if (state.isLogin) {
             if (!state.favoriteProducts.some(favProduct => favProduct.id === product.id)) {

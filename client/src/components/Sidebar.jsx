@@ -12,7 +12,7 @@ const Sidebar = () => {
 
   return (
     <div className="fixed bottom-0 right-0 w-full p-1 bg-white text-gray-700 font-bold z-10 sm:hidden border-2 border-gray-200">
-      <ul className="px-8 py-3 flex justify-between">
+      <nav className="px-8 py-3 flex justify-between list-none">
         {/*   <li>
           <button>
             <HiOutlineMenuAlt2 size={'1.5rem'}/>
@@ -67,7 +67,7 @@ const Sidebar = () => {
         </li>
 
         <li>
-          <NavLink to={"/user"}>
+          <NavLink to={"/user/profile"}>
             <button>
               {!state.avatar ? (
                 <HiOutlineUserCircle size={"1.5rem"} />
@@ -80,7 +80,7 @@ const Sidebar = () => {
             </button>
           </NavLink>
         </li>
-      </ul>
+      </nav>
     </div>
   );
 };

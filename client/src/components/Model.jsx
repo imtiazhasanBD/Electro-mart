@@ -17,7 +17,7 @@ const Model = () => {
 
   return createPortal(
     <div
-      className="fixed  bg-black/40 inset-0 z-10 hidden md:block lg:block"
+      className="fixed  bg-black/40 inset-0 z-50 hidden md:block lg:block"
       onClick={() => dispatch({ type: "SET_MODEL", payload: false })}
     >
       <div onClick={(e) => e.stopPropagation()}

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ProductsContext } from '../context/ProductsContext';
 import { auth, db } from "../components/firebase";
 import { setDoc, doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
@@ -44,6 +44,7 @@ const Success = () => {
                 orderItems: state.cartProducts,
                 paymentMethod: "stripe",
                 userId: userData?.uid,
+                createdAt: new Date(),
               }),
             });
           } else {
@@ -55,6 +56,7 @@ const Success = () => {
                   paymentId: sessionId,
                   orderItems: state.cartProducts,
                   paymentMethod: "stripe",
+                  createdAt: new Date(),
                 },
               ],
             });
@@ -74,7 +76,7 @@ const Success = () => {
   return (
     <>
       {state.isLoading && <LoadingScreen/>}
-      <div className="min-h-[570px] flex flex-col items-center justify-center gap-y-4 bg-white px-2">
+      <div className="min-h-screen flex flex-col items-center justify-center gap-y-4 bg-white px-2">
       <div className="flex justify-center">
         <div className="h-60">
           <img src={state.isLoading? "https://shorturl.at/grmBV" : "https://shorturl.at/0J1Sc"}
@@ -90,13 +92,17 @@ const Success = () => {
       <b>Your Payment Accepted by ElectroMart.com </b><br />
       Now you can view your Orders or continue Shopping with us
       </p>
-      <div className="flex items-center gap-x-5">
-        <button className="bg-white text-black lg:w-52 lg:h-12 rounded-full lg:text-base font-semibold border-2">
+      <div className="flex items-center gap-y-5 md:gap-x-5 flex-col md:flex-row">
+      <Link to="/orders">
+        <button className="bg-white text-black w-52 h-12 rounded-full lg:text-base font-semibold border-2">
           VIEW ORDER
         </button>
-        <button className="bg-blue-500 text-white  lg:w-52 lg:h-12 rounded-full lg:text-base font-semibold">
+      </Link>  
+      <Link to="/">
+        <button className="bg-blue-500 text-white  w-52 h-12 rounded-full lg:text-base font-semibold text-sm ">
           CONTINUE SHOPPING
         </button>
+      </Link>
       </div>
       </div>
         

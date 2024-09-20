@@ -87,7 +87,13 @@ const SignUp = () => {
       await createUserWithEmailAndPassword(auth, email, password);
       const user = auth.currentUser;
       if (user) {
-        await setDoc(doc(db, "Users", user.uid), { ...userInfo, avatar });
+        await setDoc(doc(db, "Users", user.uid), {
+        firstName,
+        lastName,
+        email,
+        avatar,
+        id: user.uid,
+      });
       }
       dispatch({ type: "SET_LOGIN", payload: true });
       toast.success("User Registered Successfully!!", {

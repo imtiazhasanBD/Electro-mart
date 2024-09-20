@@ -77,7 +77,7 @@ const Header = () => {
       </div>
 
       <div className="gap-8 justify-center items-center text-lg text-white font-bold hidden sm:flex">
-        <NavLink to="/user">
+        <NavLink to="/user/profile">
           <button className="flex justify-center items-center gap-2 text-sm">
             {!state.avatar ? (
               <CgProfile className="text-3xl" />

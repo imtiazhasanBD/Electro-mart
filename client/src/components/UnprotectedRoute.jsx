@@ -6,7 +6,7 @@ const UnprotectedRoute = ({ children }) => {
   const { state } = useContext(ProductsContext);
 
   if (state.isLogin) {
-    return <Navigate to="/user" replace />;
+    return <Navigate to="/user/profile" replace />;
   }
   return children;
 };

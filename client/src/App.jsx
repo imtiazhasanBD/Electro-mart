@@ -59,12 +59,14 @@ const App = () => {
   // Check if the current path matches any path where the footer should be hidden
   const shouldHideFooter = pathsToHideFooter.includes(location.pathname);
   const isProductPreviewPage = location.pathname.includes('/preview/');
+  const isUserProfile = location.pathname.includes('/user/');
+
 
 
   return (
     <>
-      <ScrollToTop />
-      {isDesktop? <Header/> : !shouldHideFooter && <Header/>}
+      {!isUserProfile && <ScrollToTop />}
+      {isDesktop? <Header/> : !isUserProfile && <Header/>}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={<Card />} />
@@ -74,12 +76,12 @@ const App = () => {
         <Route path="/search/:title" element={<ProductSearch />} />
         <Route path="/user/login" element={<UnprotectedRoute><Login/></UnprotectedRoute>} />
         <Route path="/user/register" element={<UnprotectedRoute><SignUp/></UnprotectedRoute>} />
-        <Route path="/user" element={<Protected><Profile/></Protected>} />
+        <Route path="/user/:activepage" element={<Protected><Profile/></Protected>} />
         <Route path="/success" element={<Success/>} />
         <Route path="/cancel" element={<Cancel/>} />
       </Routes>
       {!state.isLogin && state.isModelOpen && <Model />}
-      {isDesktop? <Footer/>:!shouldHideFooter && <Footer />}
+      {isDesktop? <Footer/>:!isUserProfile && <Footer />}
       {!isProductPreviewPage && <Sidebar />}
     </>
   );
