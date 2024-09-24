@@ -65,8 +65,8 @@ const App = () => {
 
   return (
     <>
-      {!isUserProfile && <ScrollToTop />}
-      {isDesktop? <Header/> : !isUserProfile && <Header/>}
+      {<ScrollToTop />}
+      {isDesktop? <Header/> :  <Header/>}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={<Card />} />

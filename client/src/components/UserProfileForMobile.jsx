@@ -37,7 +37,7 @@ const UserProfileForMobile = () => {
   return (
      <>
       { userInfo ? (
-             <div className="h-screen bg-white md:hidden">
+             <div className="h-screen bg-white md:hidden hidden">
              <div className="bg-blue-500 md:pl-[80px] w-full text-white p-2 pb-10 relative">
                <div>
                  <h1 className="p-2">My Account</h1>

@@ -32,11 +32,11 @@
   }
 
   ul .active {
-    background-color: #e2e8f0;
-    color: #3b82f6;
+    background-color: #3b82f6;
+    color: white;
   }
   ul .active:hover{
-    color: #3b82f6;
+    color: white;
   }
 
   /* Add this to your CSS file */

@@ -38,6 +38,17 @@ app.post("/api/create-checkout-session", async (req,res)=> {
     
 })
 
+app.get('/api/get-checkout-session/:id', async (req, res) => {
+    const sessionId = req.params.id;
+  
+    try {
+      const session = await stripe.checkout.sessions.retrieve(sessionId);
+      res.status(200).json(session);
+    } catch (error) {
+      res.status(404).json({ error: "Checkout session not found" });
+    }
+  });
+
 
 app.listen(7000,() => {
     console.log("server start");

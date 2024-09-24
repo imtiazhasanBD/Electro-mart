@@ -4,13 +4,17 @@ import useFetchOrderData from "./fetchOrderData";
 import { auth } from "./firebase";
 import UserPasswordUpdate from "./UserProfile/UserPasswordUpdate";
 import UserAddressUpdate from "./UserProfile/UserAddressUpdate";
+import UserDashboard from "./UserProfile/UserDashBoard";
+import OrderSummary from "./UserProfile/OrderSummary";
+import { updateUserDataToDatabase } from "./UserProfile/updateUserDataToDatabase";
+import UserOrders from "./UserProfile/UserOrders";
 
 const UserprofileBody = () => {
   const { activepage } = useParams();
   const [currentEmail, setCurrentEmail] = useState('');
+  const [error, setError] = useState(""); // State for error message
   const [userInfo, setUserInfo] = useState({
     name: "",
-    email: "",
     phone: "",
   });
 
@@ -28,19 +32,29 @@ const UserprofileBody = () => {
       ...prev,
       [name]: value,
     }));
+    
   };
 
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+    const isValidFullName = userInfo.name.trim().split(" ").length >= 2;
+    if (!isValidFullName) {
+      setError("Please enter your full name.");
+      return;
+    }
+    updateUserDataToDatabase({
+      firstName: userInfo.name.trim().split(" ")[0], 
+      lastName: userInfo.name.trim().split(" ").slice(1).join(" "), 
+      phone: userInfo.phone,
+    });
+    
+    setError(null);
     setUserInfo({
         name: '',
         phone: '',
-        email: ''
+    
       });
-   
-    console.log(user);
     
   }
 
@@ -97,7 +111,6 @@ const UserprofileBody = () => {
                 Email
               </span>
               <input
-                onChange={handleChange}
                 name="email"
                 type="email"
                 id="email"
@@ -107,6 +120,8 @@ const UserprofileBody = () => {
                 placeholder="Enter your email address"
               />
             </label>
+               {/* Display validation error if any */}
+        {error && <p className="text-red-500 text-sm mt-2 text-center">{error}</p>}
           <button  type="submit" className="bg-blue-500 md:w-40 md:m-auto p-4 text-base text-white font-semibold mt-10 rounded-lg hover:bg-blue-600 transition duration-300">
             Save Changes
           </button>
@@ -119,14 +134,21 @@ const UserprofileBody = () => {
       {activepage === "edit-location" && (
          <UserAddressUpdate/>
        )}
+      {activepage === "profile" && (
+         <UserDashboard/>
+       )}
       {activepage === "orders" && 
-      <div className="w-full flex flex-col p-16 items-center bg-white">
-       
+      <div className="w-full flex flex-col items-center bg-white">
+          <UserOrders/>
       </div>}
-      {activepage === "chat" && <div className="w-full flex flex-col p-8 items-center bg-white">{activepage}</div>}
-      {activepage === "reviews" && <div className="w-full flex flex-col p-8 items-center bg-white">{activepage}</div>}
-      {activepage === "support" && <div className="w-full flex flex-col p-8 items-center bg-white">{activepage}</div>}
-      {activepage === "payment-options" && <div className="w-full flex flex-col p-8 items-center bg-white">{activepage}</div>}
+      {activepage === "order" && 
+      <div className="w-full flex flex-col items-center bg-white">
+          <OrderSummary/>
+      </div>}
+      {activepage === "chat" && <div className="w-full flex flex-col p-16 items-center bg-white">{activepage}</div>}
+      {activepage === "reviews" && <div className="w-full flex flex-col p-16 items-center bg-white">{activepage}</div>}
+      {activepage === "support" && <div className="w-full flex flex-col p-16 items-center bg-white">{activepage}</div>}
+      {activepage === "payment-options" && <div className="w-full flex flex-col p-16 items-center bg-white">{activepage}</div>}
     </>
   );
 };
