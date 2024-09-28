@@ -62,8 +62,8 @@ const UserprofileBody = () => {
   return (
     <>
       {activepage === "edit-profile" && (
-        <div className="w-full flex flex-col p-16 items-center bg-white">
-          <h1 className="text-2xl font-semibold text-blue-400">
+        <div className="w-full flex flex-col md:p-16 items-center bg-white">
+          <h1 className="text-2xl font-semibold text-blue-400 hidden md:block">
             Personal Information
           </h1>
           {/* Form container */}

@@ -10,12 +10,12 @@ const UserDashboard = () => {
   console.log(orderItems);
 
   return (
-    <div className="w-full flex flex-col  bg-white">
+    <div className="w-full md:flex flex-col  bg-white hidden">
       <h1 className="text-2xl font-semibold text-blue-400 text-center">
         Manage My Account
       </h1>
       <div>
-        <div className="w-full justify-between mt-10 flex gap-10">
+        <div className="w-full justify-between mt-10 flex flex-col md:flex-row gap-10">
           <section className="space-y-4 p-6 flex flex-col w-full rounded-lg shadow-lg">
             <div className="flex justify-between text-lg font-semibold">
               <span>Personal Profile</span>

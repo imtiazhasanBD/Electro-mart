@@ -59,15 +59,15 @@ const UserAddressUpdate = () => {
   };
 
   return (
-    <div className="w-full flex flex-col p-16 items-center bg-white">
-      <h1 className="text-2xl font-semibold text-blue-400">
+    <div className="w-full flex flex-col md:p-16 items-center bg-white">
+      <h1 className="text-xl md:text-2xl font-semibold text-blue-400 hidden md:block">
         {userInfo?.addressInfo ? "Edit Your Address" : "Add New Address"}
       </h1>
       {/* Form container */}
       {!userInfo?.addressInfo || doEdit ? (
         <form
           onSubmit={handleSubmit}
-          className="w-full flex flex-col mt-10 space-y-6"
+          className="w-full flex flex-col p-2 space-y-6"
         >
           <div className="flex gap-6 w-full justify-end">
             <label
@@ -182,9 +182,9 @@ const UserAddressUpdate = () => {
           </div>
         </form>
       ) : (
-        <div className="w-full justify-between mt-10 flex gap-10">
+        <div className="w-full flex justify-between mt-10 flex-col gap-10">
           <section className="space-y-4 p-6 flex flex-col justify-between w-full rounded-lg shadow-lg">
-            <div className="flex justify-between text-lg font-semibold">
+            <div className="flex justify-between text-base md:text-lg font-semibold">
               <span>Billing Address</span>
               <button onClick={() => {handleEdit("billing")}} className="text-blue-500">
                 Edit
@@ -198,7 +198,7 @@ const UserAddressUpdate = () => {
             </div>
           </section>
           <section className="space-y-4 p-6 flex flex-col justify-between w-full rounded-lg shadow-lg">
-            <div className="flex justify-between text-lg font-semibold">
+            <div className="flex justify-between text-base md:text-lg font-semibold">
               <span>Shipping Address</span>
               <button onClick={() => handleEdit("shipping")} className="text-blue-500">
                 Edit

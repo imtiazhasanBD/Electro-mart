@@ -54,7 +54,7 @@ const App = () => {
 
 
   // List of paths where the footer should be hidden
-  const pathsToHideFooter = ["/user", "/preview"];
+  const pathsToHideFooter = ["/user/", "/preview"];
 
   // Check if the current path matches any path where the footer should be hidden
   const shouldHideFooter = pathsToHideFooter.includes(location.pathname);
@@ -66,7 +66,7 @@ const App = () => {
   return (
     <>
       {<ScrollToTop />}
-      {isDesktop? <Header/> :  <Header/>}
+      {isDesktop? <Header/> : !isUserProfile && <Header/>}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/cart" element={<Card />} />

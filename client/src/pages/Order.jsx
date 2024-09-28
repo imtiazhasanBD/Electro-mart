@@ -19,9 +19,10 @@ const Order = () => {
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
   const currentOrders = orderItems.slice(indexOfFirstPost, indexOfLastPost);
   const navigate = useNavigate()
+  const [activeItem, setActiveItem] = useState("All");
 
   if (state.isLoading) {
-    return <div className="container relative mt-20">
+    return <div className="container md:relative mt-20">
         <LoadingScreen/>
     </div>
   }
@@ -29,11 +30,36 @@ const Order = () => {
 const handleOrderSummary = (id) => {
     navigate(`/user/order?id=${id}`)
 }
-  console.log(orderItems);
+
+const handleSort = (item) => {
+  setActiveItem(item);
+};
+
 
   return (
-    <div className="m-auto lg:p-4 relative bg-white mb-2">
-      <h1 className="text-3xl font-bold text-blue-400 md:mb-10">My Orders</h1>
+    <div className="m-auto lg:p-4 relative mb-2">
+      <h1 className="text-3xl font-bold text-blue-400 md:mb-10 hidden md:block">My Orders</h1>
+      <div className="mb-8 border-b-2 border-gray-500">
+  <nav className="flex list-none gap-6 font-semibold scrollbar-none overflow-auto p-2">
+    {["All", "Completed", "Processing", "Shipped", "Cancelled", "Review"].map(
+      (item, index) => (
+        <li key={index}>
+          <span
+            onClick={() => handleSort(item)}
+            className={`cursor-pointer ${
+              activeItem === item
+                ? "border-b-2 border-blue-500 text-blue-500"
+                : ""
+            } pb-2`}
+          >
+            {item}
+          </span>
+        </li>
+      )
+    )}
+  </nav>
+</div>
+
       {currentOrders && currentOrders.length > 0 ? (
         currentOrders.map((orderItem) => (
           <div onClick={() => handleOrderSummary(orderItem.paymentId)} key={uuidv4()} className="border-2 my-8 hover:border-gray-200 hover:shadow-lg cursor-pointer">
@@ -45,7 +71,7 @@ const handleOrderSummary = (id) => {
               </div>
               <div className="font-bold text-md">
                <span>Order ID:</span>
-                <p className="font-normal">{orderItem.paymentId.substring(0,35)+ "..."}</p>
+                <p className="font-normal">{orderItem.paymentId.substring(0,30)+ "..."}</p>
               </div>
             </section>
 

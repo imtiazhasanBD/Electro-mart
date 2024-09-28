@@ -55,7 +55,7 @@ const Sidebar = () => {
 
         <li>
         <NavLink
-            to={state.isLogin ? "/orders" : "/user/login"}
+            to={state.isLogin ? "/user/orders" : "/user/login"}
             className={({ isActive }) => 
               isActive && location.pathname !== "/user/login" ? 'active' : ''
             }

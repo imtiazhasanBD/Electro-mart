@@ -57,8 +57,8 @@ const UserPasswordUpdate = () => {
   };
 
   return (
-    <div className="w-full flex flex-col p-16 items-center bg-white">
-          <h1 className="text-2xl font-semibold text-blue-400">
+    <div className="w-full flex flex-col p-4 md:p-16 items-center bg-white">
+          <h1 className="text-2xl font-semibold text-blue-400 hidden md:block">
             Change Password
           </h1>
           {/* Form container */}

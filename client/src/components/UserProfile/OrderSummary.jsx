@@ -53,13 +53,13 @@ const OrderSummary = () => {
 
   console.log(checkoutData)
   if (loading) {
-    return <div className="container relative mt-20">
+    return <div className="container md:relative mt-20">
         <LoadingScreen/>
     </div>
   }; // Display loading spinner while fetching data
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="container mx-auto">
     <h1 className="text-3xl font-bold mb-6">Order Summary</h1>
 
     {/* Order Header */}
