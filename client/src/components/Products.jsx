@@ -14,12 +14,12 @@ const Products = () => {
 
 
   return (
-    <div className="w-[95%] m-auto mt-5 mb-4 bg-white">
+    <div className="md:w-[95%] px-2 m-auto mt-5 mb-4 bg-white">
       <div className="flex justify-between p-2 px-4 font-semibold border-b-2">
         <p className="text-xl">Just For You</p>
         <button className="text-blue-500">View All Products</button>
       </div>
-      <div className="products grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 md:grid-cols-4 gap-5 md:p-4 z-20">
+      <div className="products grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 md:grid-cols-4 gap-5 md:p-4 z-20 pt-4">
         {currentProducts &&
           currentProducts.map((product) => (
             <Product product={product} key={uuidv4()} />

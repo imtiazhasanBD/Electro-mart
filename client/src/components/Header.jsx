@@ -20,40 +20,36 @@ const Header = () => {
 
   // Handle search button click
   const handleSearch = () => {
-    if (search.trim()) {
-      // Fetch search results
-      fetch(`https://dummyjson.com/products/search?q=${search}`)
-        .then((res) => res.json())
-        .then((data) => {
-          // Dispatch search results to the context
-          dispatch({ type: "PRODUCT_SEARCH", payload: data.products });
-
-          // Navigate to search results page
-          navigate(`/search/${search}`);
-        })
-        .catch((error) => {
-          dispatch({ type: "API_DATA_ERROR" });
-        });
+    if (search) {
+        dispatch({ type: "SET_LOADING", payload: true });
+      // Navigate to search results page
+      navigate(`/products/search?q=${search}`);
     }
   };
+
   // To hide the back botton on homepage
-  const isHomePage = location.pathname === '/';
+  const isHomePage = location.pathname === "/";
 
   const handleBackClick = () => {
     navigate(-1); // Go back to the previous page
   };
 
-
   return (
-    <header className={`bg-blue-500 flex justify-between sm:gap-10 items-center sm:px-12 py-3 sticky top-0 z-40 ${!isHomePage? 'pr-5 pl-2' : 'px-5'}`}>
-     {!isHomePage && <NavLink
-        onClick={handleBackClick}
-        className="text-white  m-auto text-center pr-2  md:hidden"
-      >
-        <button className="">
-          <BiArrowBack size={"1.7rem"} />
-        </button>
-      </NavLink>}
+    <header
+      className={`bg-blue-500 flex justify-between sm:gap-10 items-center sm:px-12 py-3 sticky top-0 z-40 ${
+        !isHomePage ? "pr-5 pl-2" : "px-5"
+      }`}
+    >
+      {!isHomePage && (
+        <NavLink
+          onClick={handleBackClick}
+          className="text-white  m-auto text-center pr-2  md:hidden"
+        >
+          <button className="">
+            <BiArrowBack size={"1.7rem"} />
+          </button>
+        </NavLink>
+      )}
       <NavLink to="/">
         <div className="md:text-3xl sm:text-md text-xl font-bold text-white hidden sm:block">
           ElectroMart
@@ -109,9 +105,11 @@ const Header = () => {
           <button className="flex justify-center items-center gap-2 text-sm">
             <span className="relative">
               <BsCart3 className="text-2xl" />
-                <span className="px-1 bg-red-500 rounded-full text-xs absolute bottom-3 left-3">
-                  {(state.cartProducts.length === 0)? 0 : state.cartProducts.length}
-                </span>
+              <span className="px-1 bg-red-500 rounded-full text-xs absolute bottom-3 left-3">
+                {state.cartProducts.length === 0
+                  ? 0
+                  : state.cartProducts.length}
+              </span>
             </span>
             <p className="hidden md:block">Cart</p>
           </button>

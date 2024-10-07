@@ -42,7 +42,7 @@ const FlashSale = () => {
           <div className="hidden md:block lg:block">
             <FlashSaleTimer />
           </div>
-          <button className="text-blue-500 text-lg">Show All</button>
+          <Link to="/flash-sales" onClick={() => dispatch({ type: "SET_LOADING", payload: true })} className="text-blue-500 text-lg">Show All</Link>
         </section>
         <div className="block md:hidden lg:hidden ">
           <FlashSaleTimer />

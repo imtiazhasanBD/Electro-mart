@@ -73,7 +73,9 @@ const App = () => {
         <Route path="/favs" element={<Favorites />} />
         <Route path="/orders" element={<Order />} />
         <Route path="/preview/:title" element={<ProductPreview />} />
-        <Route path="/search/:title" element={<ProductSearch />} />
+        <Route path="/products/search" element={<ProductSearch />} />
+        <Route path="/flash-sales" element={<ProductSearch />} />
+        <Route path="/products/category/:title" element={<ProductSearch />} />
         <Route path="/user/login" element={<UnprotectedRoute><Login/></UnprotectedRoute>} />
         <Route path="/user/register" element={<UnprotectedRoute><SignUp/></UnprotectedRoute>} />
         <Route path="/user/:activepage" element={<Protected><Profile/></Protected>} />

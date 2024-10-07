@@ -54,7 +54,7 @@ const Profile = () => {
   console.log(isSidebarOpen, activepage);
   
   return (
-    <div className={`container min-h-screen md:bg-gray-100 bg-white md:static ${activepage === "profile"? "fixed": "static"}`}>
+    <div className={`w-full min-h-screen md:bg-gray-100 bg-white md:static ${activepage === "profile"? "fixed": "static"}`}>
       {userInfo ? (
         <div className="mb-2  md:mx-8">
           {/* Banner Section */}
