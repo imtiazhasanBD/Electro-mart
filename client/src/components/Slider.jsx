@@ -6,9 +6,10 @@ import img_2 from "../assets/images/slider-image/banner-full.jpg";
 import img_3 from "../assets/images/slider-image/slider 1.jpg";
 import img_4 from "../assets/images/slider-image/slider 2.jpg";
 import img_1 from "../assets/images/slider-image/img_1.jpg";
+const img_6 = "https://www.lapshop.in/_nuxt/img/jul_2024_banner2.a4049c2.jpg";
 
 const Slider = () => {
-  const images = [img_1, img_2, img_3, img_4, img_5];
+  const images = [img_1,img_6, img_2, img_3, img_4, img_5];
   const [count, setCount] = useState(0);
 
   const handleRight = useCallback(() => {

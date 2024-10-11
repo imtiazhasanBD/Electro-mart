@@ -7,7 +7,7 @@ import { CiSearch, CiShoppingCart } from "react-icons/ci";
 import { FaArrowCircleRight } from "react-icons/fa";
 import { useAddToCart } from "./useAddToCart";
 import { useAddToFavs } from "./useAddToFavs";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const PerfumeTopDeals = () => {
   const { state, dispatch } = useContext(ProductsContext);
@@ -28,11 +28,18 @@ const PerfumeTopDeals = () => {
   // Product Add To Favs
   const addTofavs = useAddToFavs();
 
+  const navigate = useNavigate();
+
+  const handleOnClick = () => {
+    dispatch({ type: "SET_LOADING", payload: true });
+     navigate(`/products/category/fragrances`)
+  }
+
   return (
     <div className="bg-white p-4 md:mx-8 my-2  md:block lg:block">
       <span className="flex justify-between items-center text-2xl text-blue-500 font-bold border-b-2 mb-1 pb-1">
         <p className="text-black">Best Fragrances Deals</p>
-        <FaArrowCircleRight className="cursor-pointer" />
+        <FaArrowCircleRight className="cursor-pointer" onClick={handleOnClick} />
       </span>
 
       <div className="bg-white flex gap-2 justify-center items-center ">
