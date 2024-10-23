@@ -19,12 +19,13 @@ import UserprofileBody from "../components/UserprofileBody";
 import banner from "../assets/images/banner_images/extensive-ecommerce-banner.jpg";
 
 // Profile Page Component
-const Profile = () => {
+const Profile = ({handlePageTitle}) => {
   const userInfo = useFetchUserData();
   const orderItems = useFetchOrderData();
   const { dispatch } = useContext(ProductsContext);
   const navigate = useNavigate();
   const { activepage } = useParams();
+  handlePageTitle("Manage My Account")
 
   // Logout function
   async function handleLogout() {

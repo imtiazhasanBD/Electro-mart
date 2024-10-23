@@ -20,10 +20,12 @@ import Login from './pages/Login';
 import UnprotectedRoute from './components/UnprotectedRoute';
 import Success from './pages/Success';
 import Cancel from './pages/Cancel';
+import {Helmet} from "react-helmet";
 
 const App = () => {
   const { state } = useContext(ProductsContext);
   const location = useLocation();
+  const [pageTitle , setPageTitle] = useState("");
 
   // State to track if the screen is larger than 768px
   const [isDesktop, setIsDesktop] = useState(window.matchMedia("(min-width: 768px)").matches);
@@ -61,26 +63,36 @@ const App = () => {
   const isProductPreviewPage = location.pathname.includes('/preview/');
   const isUserProfile = location.pathname.includes('/user/');
 
+//handle page title
+const isHome = location.pathname;
+const homeTitle = 'Online Shopping in World: Order Now from ElectroMart.com';
+const handlePageTitle = (title) => {
+  setPageTitle(title)   
+} 
 
 
   return (
     <>
+      <Helmet>
+        <title>{location.pathname === "/" ? homeTitle : pageTitle}</title>
+      </Helmet>
+
       {<ScrollToTop />}
       {isDesktop? <Header/> : !isUserProfile && <Header/>}
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/cart" element={<Card />} />
-        <Route path="/favs" element={<Favorites />} />
-        <Route path="/orders" element={<Order />} />
-        <Route path="/preview/:title" element={<ProductPreview />} />
-        <Route path="/products/search" element={<ProductSearch />} />
-        <Route path="/flash-sales" element={<ProductSearch />} />
-        <Route path="/products/category/:title" element={<ProductSearch />} />
-        <Route path="/user/login" element={<UnprotectedRoute><Login/></UnprotectedRoute>} />
-        <Route path="/user/register" element={<UnprotectedRoute><SignUp/></UnprotectedRoute>} />
-        <Route path="/user/:activepage" element={<Protected><Profile/></Protected>} />
-        <Route path="/success" element={<Success/>} />
-        <Route path="/cancel" element={<Cancel/>} />
+        <Route path="/cart" element={<Card handlePageTitle={handlePageTitle} />} />
+        <Route path="/favs" element={<Favorites handlePageTitle={handlePageTitle}/>} />
+        <Route path="/orders" element={<Order handlePageTitle={handlePageTitle}/>} />
+        <Route path="/preview/:title" element={<ProductPreview handlePageTitle={handlePageTitle}/>} />
+        <Route path="/products/search" element={<ProductSearch handlePageTitle={handlePageTitle} />} />
+        <Route path="/flash-sales" element={<ProductSearch handlePageTitle={handlePageTitle}/>} />
+        <Route path="/products/category/:title" element={<ProductSearch handlePageTitle={handlePageTitle}/>} />
+        <Route path="/user/login" element={<UnprotectedRoute><Login/></UnprotectedRoute>}/>
+        <Route path="/user/register" element={<UnprotectedRoute><SignUp/></UnprotectedRoute>}/>
+        <Route path="/user/:activepage" element={<Protected><Profile  handlePageTitle={handlePageTitle}/></Protected>}/>
+        <Route path="/success" element={<Success/>}/>
+        <Route path="/cancel" element={<Cancel/>}/>
       </Routes>
       {!state.isLogin && state.isModelOpen && <Model />}
       {isDesktop? <Footer/>:!isUserProfile && <Footer />}

@@ -7,15 +7,16 @@ import { NavLink, useNavigate } from "react-router-dom";
 import AddTocartMobile from "../components/AddTocartMobile";
 import CheckOutBtn from "../components/CheckOutBtn";
 
-const Card = () => {
+const Card = ({handlePageTitle}) => {
   
  
   const { state } = useContext(ProductsContext);
   const [totalPrice, setTotalPrice] = useState(0); // total price cal state
   const [totalItems, setTotalItems] = useState(0); // total price cal state
+  handlePageTitle("Shopping Cart | ElectroMart.com");
 
   //   calculate all products price in total and set in state
-  useEffect(() => {
+  useEffect(() => {;
     const total = state.cartProducts.reduce(
       (acc, product) =>
         acc +

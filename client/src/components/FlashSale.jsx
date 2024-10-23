@@ -49,9 +49,9 @@ const FlashSale = () => {
         </div>
       </div>
       {/* flash sell product for web */}
-      <div className="flash-sale-products md:grid grid-cols-1  xl:grid-cols-6 md:grid-cols-3 gap-2 p-2 hidden sm:hidden">
+      <div className="flash-sale-products md:grid grid-cols-1  xl:grid-cols-7 md:grid-cols-3 gap-2 p-2 hidden sm:hidden">
         {state.saleProducts[0] &&
-          state.saleProducts[0].slice(0, 6).map((product) => (
+          state.saleProducts[0].slice(0, 7).map((product) => (
             <div
               key={product.id}
               className="flash-sale-product bg-gray-100 p-3 relative"

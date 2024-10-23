@@ -6,13 +6,13 @@ import { MdOutlineRemoveCircleOutline } from "react-icons/md";
 import { toast } from "react-toastify";
 import { useAddToCart } from "../components/useAddToCart";
 
-const Favorites = () => {
+const Favorites = ({handlePageTitle}) => {
   const { state, dispatch } = useContext(ProductsContext);
 
   // Add to cart from wishlist
     const addToCart = useAddToCart();
   
-
+    handlePageTitle("Shopping Wishlist | ElectroMart.com")
 
   // Remove Product from wishlist
   const removeFromFavorites = (id) => {

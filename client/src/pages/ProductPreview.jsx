@@ -21,7 +21,7 @@ import { TbTruckReturn } from "react-icons/tb";
 import { AiOutlineFileProtect } from "react-icons/ai";
 import useFetchUserData from "../components/fetchUser";
 
-const ProductPreview = () => {
+const ProductPreview = ({handlePageTitle}) => {
   const location = useLocation();
   const userInfo = useFetchUserData();
 
@@ -59,6 +59,7 @@ const ProductPreview = () => {
 
   // Related Products Add
   useEffect(() => {
+    handlePageTitle(title)
     const fetchData = async () => {
       try {
         dispatch({ type: "SET_LOADING", payload: true });

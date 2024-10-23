@@ -14,7 +14,7 @@ import LoadingScreen from "./LoadingScreen";
 import falseSaleBanner from "../assets/images/banner_images/flash-sale-banner.jpg";
 import FlashSaleTimer from "./FlashSaleTimer";
 
-const ProductSearch = () => {
+const ProductSearch = ({handlePageTitle}) => {
   const { state, dispatch } = useContext(ProductsContext);
   const [sortOpen, setSortOpen] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
@@ -32,6 +32,13 @@ const ProductSearch = () => {
   const query = searchParams.get("q");
 
   useEffect(() => {
+    handlePageTitle(
+      flashSale 
+        ? "Flash Sale" 
+        : query 
+        ? `Buy ${query} Online at Best Price` 
+        : title
+    );    
     // Handle search button click
     const handleSearch = async () => {
       let url = "https://dummyjson.com/products";
@@ -134,7 +141,7 @@ const ProductSearch = () => {
   if (state.isLoading) {
     return <LoadingScreen />;
   }
-  console.log(filterdProducts);
+  console.log(query);
 
   return (
     <>

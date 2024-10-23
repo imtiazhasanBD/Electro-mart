@@ -95,7 +95,7 @@ const handleOnClick = () => {
       {!isForCategoryList && (
         <section className="w-full">
           <img
-            src={category === "furniture" && furniture_banner || category=== "laptops"&& laptops_banner || category === "groceries" && grocery_banner}
+            src={category === "furniture"?  furniture_banner : category=== "laptops"? laptops_banner : category === "groceries"? grocery_banner : ""}
             alt=""
             className="w-full"
           />
