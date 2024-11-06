@@ -1,11 +1,17 @@
 import React, {useState,useEffect, useContext } from "react";
-import { ProductsContext } from "../context/ProductsContext";
+
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { AddToFavs } from "../features/favorites/favoritesSlice";
+import { setModel } from "../features/genaralSlice";
 
 export const useAddToFavs = () => {
-    const { state, dispatch } = useContext(ProductsContext);
+    
+    const { favorites, isLoading, error } = useSelector((state) => state.favoritesR);
+    const { isLogin } = useSelector((state) => state.genaralSliceR);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
   
     // State for screen size
     const [isDesktop, setIsDesktop] = useState(window.matchMedia("(min-width: 768px)").matches);
@@ -24,18 +30,18 @@ export const useAddToFavs = () => {
     }, []);
 
     const addToFavs = (product) => {
-        if (!state.isLogin && !isDesktop) {
+        if (!isLogin && !isDesktop) {
             navigate("/user/profile"); // Redirect to login if user is not logged in and on mobile
           } else {
-        if (state.isLogin) {
-            if (!state.favoriteProducts.some(favProduct => favProduct.id === product.id)) {
-                dispatch({ type: "ADD_TO_FAVORITES", payload: product });
+        if (isLogin) {
+            if (!favorites.some(favProduct => favProduct.id === product.id)) {
+                dispatch(AddToFavs(product));
                 toast.success("The product has been added to the wishlist");
             } else {
                 toast.warning("Already in Wishlist");
             }
         } else {
-            dispatch({ type: "SET_MODEL", payload: true });
+            dispatch(setModel(true));
         }
     }
     };

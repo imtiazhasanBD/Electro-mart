@@ -1,7 +1,7 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, {  useState, useEffect } from "react";
 import Product from "./Product";
 import { v4 as uuidv4 } from "uuid";
-import { ProductsContext } from "../context/ProductsContext";
+
 import {
   Link,
   useLocation,
@@ -13,14 +13,18 @@ import { TbFilterSearch } from "react-icons/tb";
 import LoadingScreen from "./LoadingScreen";
 import falseSaleBanner from "../assets/images/banner_images/flash-sale-banner.jpg";
 import FlashSaleTimer from "./FlashSaleTimer";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchSearchProducts } from "../features/search/searchSlice";
+import { setLoading } from "../features/genaralSlice";
 
 const ProductSearch = ({handlePageTitle}) => {
-  const { state, dispatch } = useContext(ProductsContext);
+  
   const [sortOpen, setSortOpen] = useState(false);
   const [filterOpen, setFilterOpen] = useState(false);
   const { title } = useParams();
   const [filterValue, setFilterValue] = useState("");
-  const [searchProducts, setSearchProducts] = useState(null);
+  const { searchProducts, isLoading, error } = useSelector((state) => state.searchProductsR);
+  const { isItLoading } = useSelector((state) => state.genaralSliceR);
   const [filterdProducts, setFilterdProducts] = useState(null);
   const [activeSort, setActiveSort] = useState("Best Match");
   const [selectedBrand, setSelectedBrand] = useState("");
@@ -30,6 +34,7 @@ const ProductSearch = ({handlePageTitle}) => {
   // recive user search input from url
   const [searchParams] = useSearchParams();
   const query = searchParams.get("q");
+  const dispatch = useDispatch();
 
   useEffect(() => {
     handlePageTitle(
@@ -40,33 +45,23 @@ const ProductSearch = ({handlePageTitle}) => {
         : title
     );    
     // Handle search button click
-    const handleSearch = async () => {
-      let url = "https://dummyjson.com/products";
+   const handleSearch = async () => {
       if (query?.trim()) {
-        url += `/search?q=${query}`;
+        dispatch(fetchSearchProducts(`/search?q=${query}`));
+      } else if (title) {
+        dispatch(fetchSearchProducts(`/category/${title.replace("_", "-")}`));
+      } else if (flashSale) {
+        dispatch(fetchSearchProducts(""));
       }
-     else if (title) {
-        url += `/category/${title.replace("_", "-")}`;
-      }
-     else if (flashSale) {
-        url += "";
-      }
-      
-      // Fetch search results
-      try {
-        const response = await fetch(url);
-        const data = await response.json();
-        // Update state with fetched products
-        setSearchProducts(data.products);
-        setFilterdProducts(data.products);
-        dispatch({ type: "SET_LOADING", payload: false });
-      } catch (error) {
-        dispatch({ type: "API_DATA_ERROR" });
-      }
-        
+     dispatch(setLoading(false));
     };
     handleSearch();
-  }, [query]);
+  }, [query, title, flashSale, dispatch]);
+
+    // Update filtered products when searchProducts changes
+    useEffect(() => {
+      setFilterdProducts(searchProducts);
+    }, [searchProducts]);
 
   // Create unique filters for categories and brands
   const filters = {
@@ -99,14 +94,13 @@ const ProductSearch = ({handlePageTitle}) => {
         sortedProducts = searchProducts;
         break;
     }
-
     setFilterdProducts(sortedProducts);
   };
 
   const handleFilterProducts = (value) => {
     setFilterValue(value);
-    dispatch({ type: "SET_LOADING", payload: true }); // Start loading before filtering
-
+     // Start loading before filtering
+    dispatch(setLoading(true));
     let sortedProducts = [...searchProducts].filter(
       (product) =>
         product.brand === value ||
@@ -125,7 +119,8 @@ const ProductSearch = ({handlePageTitle}) => {
     setTimeout(() => {
       //   setSearchProducts(sortedProducts);
       setFilterdProducts(sortedProducts);
-      dispatch({ type: "SET_LOADING", payload: false }); // Stop loading
+     // Stop loading
+    dispatch(setLoading(false))
     }, 500);
   };
 
@@ -138,10 +133,12 @@ const ProductSearch = ({handlePageTitle}) => {
   ];
 
   // loading state
-  if (state.isLoading) {
+  useEffect(() => {
+
+  }, [dispatch,searchProducts])
+  if (isItLoading || isLoading) {
     return <LoadingScreen />;
   }
-  console.log(query);
 
   return (
     <>

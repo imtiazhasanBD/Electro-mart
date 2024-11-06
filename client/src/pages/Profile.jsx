@@ -1,13 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, {  useState } from "react";
 import { auth } from "../components/firebase";
-import { ProductsContext } from "../context/ProductsContext";
 import LoadingScreen from "../components/LoadingScreen";
 import useFetchUserData from "../components/fetchUser";
 import useFetchOrderData from "../components/fetchOrderData";
 import { useNavigate, useParams } from "react-router-dom";
 import { RiAccountBoxLine, RiLockPasswordLine } from "react-icons/ri";
 import { BiArrowBack } from "react-icons/bi";
-
 import { FaRegEdit } from "react-icons/fa";
 import { TiHomeOutline } from "react-icons/ti";
 import { LuPackage2 } from "react-icons/lu";
@@ -17,22 +15,25 @@ import SidebarLink from "../components/UserProfile/SidebarLink";
 import UserProfileForMobile from "../components/UserProfileForMobile";
 import UserprofileBody from "../components/UserprofileBody";
 import banner from "../assets/images/banner_images/extensive-ecommerce-banner.jpg";
+import { useDispatch } from "react-redux";
+import { setAvatar, setLogin } from "../features/genaralSlice";
 
 // Profile Page Component
+
 const Profile = ({handlePageTitle}) => {
   const userInfo = useFetchUserData();
   const orderItems = useFetchOrderData();
-  const { dispatch } = useContext(ProductsContext);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { activepage } = useParams();
-  handlePageTitle("Manage My Account")
+  //handlePageTitle("Manage My Account")
 
   // Logout function
   async function handleLogout() {
     try {
       await auth.signOut();
-      dispatch({ type: "SET_AVATAR", payload: "" });
-      dispatch({ type: "SET_LOGIN", payload: false });
+      dispatch(setAvatar(""));
+      dispatch(setLogin(false));
     } catch (error) {
       console.error("Error logging out:", error.message);
     }
@@ -51,8 +52,6 @@ const Profile = ({handlePageTitle}) => {
     const handleBackClick = () => {
       navigate(-1); // Go back to the previous page
     };
-
-  console.log(isSidebarOpen, activepage);
   
   return (
     <div className={`w-full min-h-screen md:bg-gray-100 bg-white md:static ${activepage === "profile"? "fixed": "static"}`}>

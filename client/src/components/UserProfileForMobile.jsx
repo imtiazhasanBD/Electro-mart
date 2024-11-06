@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-import { ProductsContext } from "../context/ProductsContext";
 import useFetchUserData from "./fetchUser";
 import { auth } from "./firebase";
 import { NavLink } from "react-router-dom";
@@ -26,19 +26,23 @@ import { TbCalendarCancel } from "react-icons/tb";
 import { GrCompliance } from "react-icons/gr";
 
 import LoadingScreen from "./LoadingScreen";
+import { setAvatar, setLogin } from "../features/genaralSlice";
+import { toast } from "react-toastify";
 
 const UserProfileForMobile = ({ onToggleSidebar }) => {
     
     const userInfo = useFetchUserData();
-    const { state, dispatch } = useContext(ProductsContext);
-  
+    
+    const dispatch = useDispatch();
+    const { favorites } = useSelector((state) => state.favoritesR);
+
     async function handleLogout() {
       try {
         await auth.signOut();
       //  window.location.href = "/";
-        dispatch({ type: "SET_AVATAR", payload: "" });
-        console.log("User logged out successfully!");
-        dispatch({ type: "SET_LOGIN", payload: false });
+        dispatch(setAvatar(""));
+        toast.dismiss("User logged out successfully!");
+        dispatch(setLogin(false));
       } catch (error) {
         console.error("Error logging out:", error.message);
       }
@@ -98,9 +102,9 @@ const UserProfileForMobile = ({ onToggleSidebar }) => {
                    <NavLink to={"/favs"} size={"2rem"}>
                      <button className="relative text-3xl">
                        <IoIosHeartEmpty className="text-gray-500"/>
-                       {state.favoriteProducts.length > 0 && (
+                       {favorites.length > 0 && (
                          <span className="px-1 bg-orange-500 text-white rounded-full text-xs absolute top-0 right-0">
-                           {state.favoriteProducts.length}
+                           {favorites.length}
                          </span>
                        )}
                      </button>

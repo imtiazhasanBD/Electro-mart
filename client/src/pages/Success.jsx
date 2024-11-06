@@ -1,17 +1,21 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, {  useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ProductsContext } from '../context/ProductsContext';
 import { auth, db } from "../components/firebase";
 import { setDoc, doc, getDoc, updateDoc, arrayUnion } from "firebase/firestore";
 import { toast } from "react-toastify";  // If you are using toast for notifications
 import LoadingScreen from '../components/LoadingScreen';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLoading } from '../features/genaralSlice';
+import { clearCart } from '../features/cart/cartSlice';
 
 const Success = () => {
-  const { state, dispatch } = useContext(ProductsContext);
+  const { cart, isLoading, error } = useSelector((state) => state.cartR);
+  const dispatch = useDispatch();
   const [userData, setUserData] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
   const sessionId = new URLSearchParams(location.search).get("session_id");
+  const { isItLoading } = useSelector((state) => state.genaralSliceR);
 
   // Monitor authentication state
   useEffect(() => {
@@ -27,10 +31,10 @@ const Success = () => {
 
   // Save order to Firestore if sessionId exists and cart is not empty
   useEffect(() => {
-    if (sessionId && state.cartProducts.length > 0 && userData) {
+    if (sessionId && cart.length > 0 && userData) {
       const saveOrder = async () => {
         try {
-          dispatch({ type: "SET_LOADING", payload: true });
+          dispatch(setLoading(true));
 
           const orderRef = doc(db, "orders", userData.email);
           const docSnap = await getDoc(orderRef);
@@ -41,7 +45,7 @@ const Success = () => {
               orders: arrayUnion({
                 userEmail: userData?.email,
                 paymentId: sessionId,
-                orderItems: state.cartProducts,
+                orderItems: cart,
                 paymentMethod: "stripe",
                 userId: userData?.uid,
                 createdAt: new Date(),
@@ -54,7 +58,7 @@ const Success = () => {
                 {
                   userEmail: userData?.email,
                   paymentId: sessionId,
-                  orderItems: state.cartProducts,
+                  orderItems: cart,
                   paymentMethod: "stripe",
                   createdAt: new Date(),
                 },
@@ -62,31 +66,31 @@ const Success = () => {
             });
           }
           toast.success("Order saved successfully!");
-          dispatch({ type: "CLEAR_CART" });
+          dispatch(clearCart())
         } catch (error) {
           toast.error("Error saving order data");
         } finally {
-          dispatch({ type: "SET_LOADING", payload: false });
+          dispatch(setLoading(false));
         }
       };
       saveOrder();
     }
-  }, [sessionId, state.cartProducts, userData, dispatch]);
+  }, [sessionId, cart, userData, dispatch]);
 
   return (
     <>
-      {state.isLoading && <LoadingScreen/>}
+      {isItLoading && <LoadingScreen/>}
       <div className="min-h-screen flex flex-col items-center justify-center gap-y-4 bg-white px-2">
       <div className="flex justify-center">
         <div className="h-60">
-          <img src={state.isLoading? "https://shorturl.at/grmBV" : "https://shorturl.at/0J1Sc"}
+          <img src={isItLoading? "https://shorturl.at/grmBV" : "https://shorturl.at/0J1Sc"}
             className="h-full w-full">
           </img>
         </div>
       </div>
       
       <h2 className="text-2xl font-bold text-center mb-2">
-        {!state.isLoading? "Thank you for ordering!" : "Your order payment is processing"}
+        {!isItLoading? "Thank you for ordering!" : "Your order payment is processing"}
       </h2>
       <p className="text-gray-500 text-center mb-4">
       <b>Your Payment Accepted by ElectroMart.com </b><br />

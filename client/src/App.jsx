@@ -7,7 +7,6 @@ import Order from './pages/Order';
 import Sidebar from './components/Sidebar';
 import ProductPreview from './pages/ProductPreview';
 import Model from './components/Model';
-import { ProductsContext } from './context/ProductsContext';
 import SignUp from './pages/SignUp';
 import Profile from './pages/Profile';
 import Header from './components/Header';
@@ -21,12 +20,13 @@ import UnprotectedRoute from './components/UnprotectedRoute';
 import Success from './pages/Success';
 import Cancel from './pages/Cancel';
 import {Helmet} from "react-helmet";
+import { useSelector } from 'react-redux';
 
 const App = () => {
-  const { state } = useContext(ProductsContext);
+
   const location = useLocation();
   const [pageTitle , setPageTitle] = useState("");
-
+  const { isModelOpen , isLogin } = useSelector((state) => state.genaralSliceR);
   // State to track if the screen is larger than 768px
   const [isDesktop, setIsDesktop] = useState(window.matchMedia("(min-width: 768px)").matches);
 
@@ -69,6 +69,7 @@ const homeTitle = 'Online Shopping in World: Order Now from ElectroMart.com';
 const handlePageTitle = (title) => {
   setPageTitle(title)   
 } 
+console.log(isLogin);
 
 
   return (
@@ -94,7 +95,7 @@ const handlePageTitle = (title) => {
         <Route path="/success" element={<Success/>}/>
         <Route path="/cancel" element={<Cancel/>}/>
       </Routes>
-      {!state.isLogin && state.isModelOpen && <Model />}
+      {!isLogin && isModelOpen && !isUserProfile && <Model />}
       {isDesktop? <Footer/>:!isUserProfile && <Footer />}
       {!isProductPreviewPage && <Sidebar />}
     </>

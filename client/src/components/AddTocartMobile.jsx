@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import { ProductsContext } from "../context/ProductsContext";
 import { v4 as uuidv4 } from "uuid";
 import { Link } from "react-router-dom";
 import { RxCross2 } from "react-icons/rx";
@@ -7,15 +6,20 @@ import { IoRemoveOutline } from "react-icons/io5";
 import { IoMdAdd } from "react-icons/io";
 import { toast } from "react-toastify"
 import { useAddToCart } from "./useAddToCart";
+import { useDispatch, useSelector } from "react-redux";
+import { RemoveFromCart, RemoveQuantity } from "../features/cart/cartSlice";
+import { setModel } from "../features/genaralSlice";
 
 
 const AddTocartMobile = ({product}) => {
     const { id,quantity,title,thumbnail,description,price,category,rating,discountPercentage,brand} = product;
-    const { state, dispatch } = useContext(ProductsContext);
+    
+    const dispatch = useDispatch();
+    const { isLogin } = useSelector((state) => state.genaralSliceR);
 
         // Remove Product from Cart
         const removeProduct = (id) => {
-            dispatch({ type: "REMOVE_FROM_CART", payload: id });
+            dispatch(RemoveFromCart(id))
             toast.info("The item has been removed from the cart");
           };
       
@@ -25,11 +29,12 @@ const AddTocartMobile = ({product}) => {
         //Remove Product quqntity
       
         const removeQuantity = () => {
-          if (state.isLogin && product.quantity > 1) {
-            dispatch({ type: "ADD_TO_CART", payload: { product: product, quantity: -1 } });
+          if (isLogin && product.quantity > 1) {
+            dispatch(RemoveQuantity(id))
             toast.info("The item quantity has been removed");
         } else {
-            dispatch({ type: "SET_MODEL", payload: true });
+            dispatch(setModel(true));
+            dispatch(setLoading(false))
         }
         }
 

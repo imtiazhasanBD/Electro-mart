@@ -1,5 +1,4 @@
-import React, { useContext, useEffect } from "react";
-import { ProductsContext } from "../context/ProductsContext";
+import React, { useEffect } from "react";
 import FlashSaleTimer from "./FlashSaleTimer";
 import Product from "./Product";
 import { v4 as uuidv4 } from "uuid";
@@ -9,18 +8,13 @@ import { CiSearch, CiShoppingCart } from "react-icons/ci";
 import { useAddToCart } from "./useAddToCart";
 import { useAddToFavs } from "./useAddToFavs";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading } from "../features/genaralSlice";
 
 const FlashSale = () => {
-  const { state, dispatch } = useContext(ProductsContext);
-
-  useEffect(() => {
-    if (state.products && state.products[0]) {
-      const flashSaleProducts = [...state.products[0]].sort(
-        (a, b) => b.discountPercentage - a.discountPercentage
-      );
-      dispatch({ type: "ADD_SALE_PRODUCTS", payload: flashSaleProducts });
-    }
-  }, [state.products, dispatch]);
+  
+  const dispatch = useDispatch();
+  const { products} = useSelector((state) => state.productsR);
 
   // Product Add To Cart
   const addToCart = useAddToCart();
@@ -28,11 +22,7 @@ const FlashSale = () => {
   // Product Add To Favs
   const addTofavs = useAddToFavs();
 
-  ///
-  const productZero =
-    state.saleProducts && state.saleProducts.length > 0
-      ? state.saleProducts[0]
-      : null;
+
 
   return (
     <div className="bg-white md:mx-8 my-2">
@@ -42,7 +32,7 @@ const FlashSale = () => {
           <div className="hidden md:block lg:block">
             <FlashSaleTimer />
           </div>
-          <Link to="/flash-sales" onClick={() => dispatch({ type: "SET_LOADING", payload: true })} className="text-blue-500 text-lg">Show All</Link>
+          <Link to="/flash-sales" onClick={() =>     dispatch(setLoading(true))} className="text-blue-500 text-lg">Show All</Link>
         </section>
         <div className="block md:hidden lg:hidden ">
           <FlashSaleTimer />
@@ -50,8 +40,10 @@ const FlashSale = () => {
       </div>
       {/* flash sell product for web */}
       <div className="flash-sale-products md:grid grid-cols-1  xl:grid-cols-7 md:grid-cols-3 gap-2 p-2 hidden sm:hidden">
-        {state.saleProducts[0] &&
-          state.saleProducts[0].slice(0, 7).map((product) => (
+        {products &&
+          [...products].sort(
+            (a, b) => b.discountPercentage - a.discountPercentage
+          ).slice(0, 7).map((product) => (
             <div
               key={product.id}
               className="flash-sale-product bg-gray-100 p-3 relative"
@@ -92,37 +84,39 @@ const FlashSale = () => {
 
       {/* flash sell product for mobile */}
       <div className="flex w-full p-4 md:hidden lg:hidden">
-        {state.saleProducts[0] && (
+        {products[0] && (
           <section className=" border-r-2">
             <Link
-              to={`/preview/${state.saleProducts[0][0].title}`}
-              state={{ product: productZero[0] }}
+              to={`/preview/${products[0].title}`}
+              state={{ product: products[0] }}
             >
-              <img src={state.saleProducts[0][0].thumbnail} alt="" />
+              <img src={products[0].thumbnail} alt="" />
             </Link>
             <div>
               <span className="flex gap-2">
                 <p className="line-through text-gray-500 text-sm">
-                  ${state.saleProducts[0][0].price}
+                  ${products[0].price}
                 </p>
                 <p className=" text-red-500 text-sm">
-                  {state.saleProducts[0][0].discountPercentage}%
+                  {products[0].discountPercentage}%
                 </p>
               </span>
               <p className="price text-xl font-bold text-blue-500">
                 $
                 {(
-                  state.saleProducts[0][0].price -
-                  (state.saleProducts[0][0].price / 100) *
-                    state.saleProducts[0][0].discountPercentage
+                  products[0].price -
+                  (products[0].price / 100) *
+                    products[0].discountPercentage
                 ).toFixed(2)}
               </p>
             </div>
           </section>
         )}
         <section>
-          {state.saleProducts[0] &&
-            state.saleProducts[0].slice(1, 4).map((product) => (
+          {products &&
+            [...products].sort(
+              (a, b) => b.discountPercentage - a.discountPercentage
+            ).slice(1, 4).map((product) => (
               <div
                 key={uuidv4()}
                 className="flash-sale-product flex gap-2 pb-4"

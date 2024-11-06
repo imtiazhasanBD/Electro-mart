@@ -1,6 +1,6 @@
-import React, { useContext, useState } from "react";
+import React, {  useState } from "react";
 import perfume_banner from "../assets/images/banner_images/fragrances_banner_3.jpg";
-import { ProductsContext } from "../context/ProductsContext";
+
 
 import { FaHeart } from "react-icons/fa";
 import { CiSearch, CiShoppingCart } from "react-icons/ci";
@@ -8,14 +8,18 @@ import { FaArrowCircleRight } from "react-icons/fa";
 import { useAddToCart } from "./useAddToCart";
 import { useAddToFavs } from "./useAddToFavs";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading } from "../features/genaralSlice";
 
 const PerfumeTopDeals = () => {
-  const { state, dispatch } = useContext(ProductsContext);
+  
+  const dispatch = useDispatch();
+  const { products} = useSelector((state) => state.productsR);
 
   let filtered;
 
-  if (state.products[0]) {
-    filtered = state.products[0]
+  if (products) {
+    filtered = products
       .filter((product) =>
         product.category.toLowerCase().includes("fragrances")
       )
@@ -31,7 +35,7 @@ const PerfumeTopDeals = () => {
   const navigate = useNavigate();
 
   const handleOnClick = () => {
-    dispatch({ type: "SET_LOADING", payload: true });
+    dispatch(setLoading(true));
      navigate(`/products/category/fragrances`)
   }
 

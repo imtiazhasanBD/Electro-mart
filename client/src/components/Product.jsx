@@ -1,6 +1,6 @@
-import React, { useContext, useEffect } from "react";
+import React, {  useEffect } from "react";
 import { CiSearch, CiShoppingCart } from "react-icons/ci";
-import { ProductsContext } from "../context/ProductsContext";
+
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FaHeart } from "react-icons/fa";
@@ -22,7 +22,7 @@ const Product = ({ product }) => {
     reviews,
     stock,
   } = product;
-  const { state, dispatch } = useContext(ProductsContext);
+  
   const navigate = useNavigate();
 
   // Check if the screen width is above 768px (or any threshold you prefer)

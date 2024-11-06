@@ -1,23 +1,23 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, {  useState, useEffect } from "react";
 import { BsArrowLeft } from "react-icons/bs";
-import { ProductsContext } from "../context/ProductsContext";
 import AddTocart from "../components/AddTocart";
 import { v4 as uuidv4 } from "uuid";
 import { NavLink, useNavigate } from "react-router-dom";
 import AddTocartMobile from "../components/AddTocartMobile";
 import CheckOutBtn from "../components/CheckOutBtn";
+import { useSelector } from "react-redux";
 
 const Card = ({handlePageTitle}) => {
   
- 
-  const { state } = useContext(ProductsContext);
   const [totalPrice, setTotalPrice] = useState(0); // total price cal state
   const [totalItems, setTotalItems] = useState(0); // total price cal state
-  handlePageTitle("Shopping Cart | ElectroMart.com");
+  const { cart, isLoading, error } = useSelector((state) => state.cartR);
+
+//  handlePageTitle("Shopping Cart | ElectroMart.com");
 
   //   calculate all products price in total and set in state
   useEffect(() => {;
-    const total = state.cartProducts.reduce(
+    const total = cart.reduce(
       (acc, product) =>
         acc +
         (product.price - (product.price / 100) * product.discountPercentage) *
@@ -25,18 +25,18 @@ const Card = ({handlePageTitle}) => {
       0
     );
     setTotalPrice(total);
-    const items = state.cartProducts.map(product => product.quantity).reduce((total, quantity) => total + quantity, 0);
+    const items = cart.map(product => product.quantity).reduce((total, quantity) => total + quantity, 0);
      setTotalItems(items);
     
-  }, [state.cartProducts]);
+  }, [cart]);
 
   return (
     <div className="m-auto p-4 lg:mx-8 md:mx-8 relative bg-white mb-2">
       <h1 className="text-3xl font-bold text-blue-400">Shopping Cart</h1>
       <p className="text-ml text-gray-400">
-        There are {state.cartProducts.length} Items in your cart
+        There are {cart.length} Items in your cart
       </p>
-      {state.cartProducts.length > 0 ? (
+      {cart.length > 0 ? (
         <section className="flex justify-between lg:flex-row flex-col  lg:space-x-10 mt-10">
           {/* for medium and lagre screen */}
           <div className="w-[60%] sm:w-full space-y-3 hidden md:block lg:block sm:block">
@@ -51,8 +51,8 @@ const Card = ({handlePageTitle}) => {
                 </tr>
               </thead>
               <tbody className="space-y-10 text-center">
-                {state.cartProducts &&
-                  state.cartProducts.map((product) => (
+                {cart &&
+                  cart.map((product) => (
                     <AddTocart product={product} key={uuidv4()} />
                   ))}
               </tbody>
@@ -67,8 +67,8 @@ const Card = ({handlePageTitle}) => {
           {/* Mobile screen*/}
 
           <div className="sm:hidden px-4 divide-y divide-gray-200 border-b border-t border-gray-200 mb-10">
-            {state.cartProducts &&
-              state.cartProducts.map((product) => (
+            {cart &&
+              cart.map((product) => (
                 <AddTocartMobile product={product} key={uuidv4()} />
               ))}
           </div>

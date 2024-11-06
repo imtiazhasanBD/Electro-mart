@@ -1,6 +1,5 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, {  useState, useEffect } from "react";
 import { BsArrowLeft } from "react-icons/bs";
-import { ProductsContext } from "../context/ProductsContext";
 import AddTocart from "./AddTocart";
 import { v4 as uuidv4 } from "uuid";
 import { Link, NavLink } from "react-router-dom";
@@ -12,7 +11,7 @@ import { useAddToCart } from "./useAddToCart";
 import AddTocartMobile from "./AddTocartMobile";
 
 const CartItems = () => {
-  const { state, dispatch } = useContext(ProductsContext);
+  
   const [totalPrice, setTotalPrice] = useState(0); // total price cal state
 
   //   calculate all products price in total and set in state

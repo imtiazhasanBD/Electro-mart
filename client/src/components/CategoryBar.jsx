@@ -24,7 +24,8 @@ import sports_accessories from "../assets/images/catagory_image/Sport_balls.svg"
 import Motorcycle from "../assets/images/catagory_image/motorcycle.webp";
 import Vehicle from "../assets/images/catagory_image/vehicle.png";
 import { useNavigate } from "react-router-dom";
-import { ProductsContext } from "../context/ProductsContext";
+import { useDispatch } from "react-redux";
+import { setLoading } from "../features/genaralSlice";
 
 const category_image = {
   Beauty,
@@ -54,11 +55,11 @@ const category_image = {
 };
 
 const CategoryBar = () => {
-  const { dispatch } = useContext(ProductsContext);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleCategory = (key) => {
-    dispatch({ type: "SET_LOADING", payload: true });
+    dispatch(setLoading(true))
       navigate(`/products/category/${key.toLowerCase().replace("_", "-")}`);
   };
 

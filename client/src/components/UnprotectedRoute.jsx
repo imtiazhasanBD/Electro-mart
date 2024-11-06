@@ -1,11 +1,12 @@
 import React, { useContext } from "react";
-import { ProductsContext } from "../context/ProductsContext";
+
 import { Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const UnprotectedRoute = ({ children }) => {
-  const { state } = useContext(ProductsContext);
+  const { isLogin } = useSelector((state) => state.genaralSliceR);
 
-  if (state.isLogin) {
+  if (isLogin) {
     return <Navigate to="/user/profile" replace />;
   }
   return children;

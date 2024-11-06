@@ -1,11 +1,11 @@
-import React, { useContext } from 'react';
-import { ProductsContext } from '../context/ProductsContext';
+import React  from 'react';
 import { loadStripe } from '@stripe/stripe-js';
+import { useSelector } from 'react-redux';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
 const CheckOutBtn = () => {
-  const { state } = useContext(ProductsContext);
+  const { cart } = useSelector((state) => state.cartR);
 
   const handleCheckout = async () => {
     try {
@@ -14,7 +14,7 @@ const CheckOutBtn = () => {
 
       // Prepare the request body with the cart products
       const body = {
-        products: state.cartProducts
+        products: cart
       };
 
       // Make a POST request to the backend to create a checkout session

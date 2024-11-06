@@ -1,11 +1,13 @@
-import { useContext, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import { auth, db } from "../components/firebase";
 import { doc, onSnapshot } from "firebase/firestore";
-import { ProductsContext } from "../context/ProductsContext";
+import { useDispatch } from "react-redux";
+import { setAvatar } from "../features/genaralSlice";
 
 const useFetchUserData = () => {
   const [userInfo, setUserInfo] = useState(null);
-  const { state, dispatch } = useContext(ProductsContext);
+  
+  const dispatch = useDispatch();
   
   useEffect(() => {
     const fetchUserData = async () => {
@@ -16,7 +18,7 @@ const useFetchUserData = () => {
           const unsubscribe = onSnapshot(userDocRef, (docSnap) => {
             if (docSnap.exists()) {
               setUserInfo(docSnap.data());
-              dispatch({ type: "SET_AVATAR", payload: docSnap.data().avatar });
+              dispatch(setAvatar(docSnap.data().avatar));
             } else {
               console.log("No such document!");
             }

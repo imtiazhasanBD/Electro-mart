@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import shoppingImage from "../assets/images/online shopping-min.jpg";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { TfiEmail } from "react-icons/tfi";
@@ -10,7 +10,7 @@ import { auth, db } from "../components/firebase";
 import { setDoc, doc } from "firebase/firestore";
 
 import { toast } from "react-toastify";
-import { ProductsContext } from "../context/ProductsContext";
+
 
 import {
   getStorage,
@@ -20,9 +20,12 @@ import {
 } from "firebase/storage";
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setLogin } from "../features/genaralSlice";
 
 const SignUp = () => {
-  const { state, dispatch } = useContext(ProductsContext);
+  
+  const dispatch = useDispatch();
   const [file, setFile] = useState("");
   const [avatar, setAvatar] = useState("");
 
@@ -95,7 +98,7 @@ const SignUp = () => {
         id: user.uid,
       });
       }
-      dispatch({ type: "SET_LOGIN", payload: true });
+      dispatch(setLogin(true));
       toast.success("User Registered Successfully!!", {
         position: "top-center",
       });

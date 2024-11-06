@@ -5,10 +5,14 @@ import { IoHeartOutline } from "react-icons/io5";
 import { HiOutlineUserCircle } from "react-icons/hi2";
 
 import { NavLink } from "react-router-dom";
-import { ProductsContext } from "../context/ProductsContext";
+
+import { useSelector } from "react-redux";
 
 const Sidebar = () => {
-  const { state, dispatch } = useContext(ProductsContext);
+  
+  const { cart, isLoading, error } = useSelector((state) => state.cartR);
+  const { favorites } = useSelector((state) => state.favoritesR);
+  const { isLogin , avatar } = useSelector((state) => state.genaralSliceR);
 
   return (
     <div className="fixed bottom-0 right-0 w-full p-1 bg-white text-gray-700 font-bold z-10 sm:hidden border-2 border-gray-200">
@@ -31,9 +35,9 @@ const Sidebar = () => {
           <NavLink to={"/cart"}>
             <button className="relative">
               <CiShoppingCart size={"1.5rem"} />
-              {state.cartProducts.length > 0 && (
+              {cart.length > 0 && (
                 <span className="px-1 bg-blue-500 text-white rounded-full text-xs absolute top-0 right-0">
-                  {state.cartProducts.length}
+                  {cart.length}
                 </span>
               )}
             </button>
@@ -44,9 +48,9 @@ const Sidebar = () => {
           <NavLink to={"/favs"}>
             <button className="relative">
               <IoHeartOutline size={"1.5rem"} />
-              {state.favoriteProducts.length > 0 && (
+              {favorites.length > 0 && (
                 <span className="px-1 bg-blue-500 text-white rounded-full text-xs absolute top-0 right-0">
-                  {state.favoriteProducts.length}
+                  {favorites.length}
                 </span>
               )}
             </button>
@@ -55,7 +59,7 @@ const Sidebar = () => {
 
         <li>
         <NavLink
-            to={state.isLogin ? "/user/orders" : "/user/login"}
+            to={isLogin ? "/user/orders" : "/user/login"}
             className={({ isActive }) => 
               isActive && location.pathname !== "/user/login" ? 'active' : ''
             }
@@ -69,11 +73,11 @@ const Sidebar = () => {
         <li>
           <NavLink to={"/user/profile"}>
             <button>
-              {!state.avatar ? (
+              {!avatar ? (
                 <HiOutlineUserCircle size={"1.5rem"} />
               ) : (
                 <img
-                  src={state.avatar}
+                  src={avatar}
                   className="w-6 h-6 rounded-full object-cover"
                 />
               )}

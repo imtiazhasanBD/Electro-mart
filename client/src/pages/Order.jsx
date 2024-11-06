@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { ProductsContext } from "../context/ProductsContext";
+
 import { v4 as uuidv4 } from "uuid";
 import LoadingScreen from "../components/LoadingScreen";
 import { auth, db } from "../components/firebase";
@@ -9,10 +9,11 @@ import { setDoc, doc, getDoc } from "firebase/firestore";
 import { toast } from "react-toastify";
 import useFetchOrderData from "../components/fetchOrderData";
 import Pagination from "../components/Pagination";
+import { useSelector } from "react-redux";
 
 const Order = () => {
   const orderItems = useFetchOrderData();
-  const { state, dispatch } = useContext(ProductsContext);
+  
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 4;
   const indexOfLastPost = currentPage * postsPerPage;
@@ -20,8 +21,9 @@ const Order = () => {
   const currentOrders = orderItems.slice(indexOfFirstPost, indexOfLastPost);
   const navigate = useNavigate()
   const [activeItem, setActiveItem] = useState("All");
+  const { isItLoading } = useSelector((state) => state.genaralSliceR);
 
-  if (state.isLoading) {
+  if (isItLoading) {
     return <div className="container md:relative mt-20">
         <LoadingScreen/>
     </div>

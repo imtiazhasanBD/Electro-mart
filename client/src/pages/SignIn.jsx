@@ -1,19 +1,22 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { RxCrossCircled } from "react-icons/rx";
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebookF } from "react-icons/fa";
 import { FaLinkedinIn } from "react-icons/fa";
 import { TfiEmail } from "react-icons/tfi";
 import { RiLockPasswordLine } from "react-icons/ri";
-import { ProductsContext } from "../context/ProductsContext";
+
 import { Link, NavLink } from "react-router-dom";
 
 import { toast } from "react-toastify";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../components/firebase';
 import useFetchUserData from '../components/fetchUser';
+import { useDispatch } from "react-redux";
+import { setLogin, setModel } from "../features/genaralSlice";
 const SignIn = () => {
-    const { state, dispatch } = useContext(ProductsContext);
+    
+    const dispatch = useDispatch();
 
   
     const [user, setUser] = useState({
@@ -37,8 +40,8 @@ const SignIn = () => {
       e.preventDefault();
       try {
         await signInWithEmailAndPassword(auth, email, password);
-        dispatch({ type: "SET_MODEL", payload: false });
-        dispatch({ type: "SET_LOGIN", payload: true });
+        dispatch(setModel(true));
+        dispatch(setLogin(true));
         toast.success("User logged in Successfully!!", {
           position: "top-center",
         });
@@ -98,7 +101,7 @@ const SignIn = () => {
             </button>
           </form>
           <p className="font-semibold text-gray-400">New member?
-            <Link onClick={() => dispatch({ type: "SET_MODEL", payload: false })} to="/user/register" className=" text-blue-500 hover:underline"> Register here</Link>
+            <Link onClick={() => dispatch(setModel(false))} to="/user/register" className=" text-blue-500 hover:underline"> Register here</Link>
           </p>
         </div>
         {/*User sign up section*/}
@@ -112,7 +115,7 @@ const SignIn = () => {
             <NavLink to="/user/register">
               {" "}
               <button
-                onClick={() => dispatch({ type: "SET_MODEL", payload: false })}
+                onClick={() => dispatch(setModel(false))}
                 className="text-xl border-2 border-white font-bold py-1 px-4 rounded-lg mt-4"
               >
                 SIGN UP
@@ -120,7 +123,7 @@ const SignIn = () => {
             </NavLink>
           </div>
           <button
-            onClick={() => dispatch({ type: "SET_MODEL", payload: false })}
+            onClick={() => dispatch(setModel(false))}
             className="absolute top-2 right-2 p-2 text-2xl font-bold"
           >
             <RxCrossCircled className="text-white" />

@@ -1,11 +1,13 @@
 import React, { useContext } from "react";
 import { AiFillDelete } from "react-icons/ai";
-import { ProductsContext } from "../context/ProductsContext";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { IoRemoveOutline } from "react-icons/io5";
 import { IoMdAdd } from "react-icons/io";
 import { useAddToCart } from "./useAddToCart";
+import { useDispatch, useSelector } from "react-redux";
+import { RemoveFromCart, RemoveQuantity } from "../features/cart/cartSlice";
+import { setLoading, setModel } from "../features/genaralSlice";
 
 
 const AddTocart = ({ product }) => {
@@ -22,11 +24,12 @@ const AddTocart = ({ product }) => {
     brand,
     shippingInformation
   } = product;
-  const { state, dispatch } = useContext(ProductsContext);
-
+  
+  const { isItLoading ,isLogin} = useSelector((state) => state.genaralSliceR);
+  const dispatch = useDispatch();
   // Remove Product from Cart
   const removeProduct = () => {
-    dispatch({ type: "REMOVE_FROM_CART", payload: id });
+    dispatch(RemoveFromCart(id))
     toast.info("The item has been removed from the cart");
   };
 
@@ -36,11 +39,12 @@ const AddTocart = ({ product }) => {
     //Remove Product quqntity
   
     const removeQuantity = () => {
-      if (state.isLogin && product.quantity > 1) {
-        dispatch({ type: "ADD_TO_CART", payload: { product: product, quantity: -1 } });
+      if (isLogin && product.quantity > 1) {
+        dispatch(RemoveQuantity(id))
         toast.info("The item quantity has been removed");
     } else {
-        dispatch({ type: "SET_MODEL", payload: true });
+       // dispatch(setModel(true));
+        dispatch(setLoading(false))
     }
     }
 
@@ -73,7 +77,7 @@ const AddTocart = ({ product }) => {
       <td>
          <span className="flex items-center gap-2">
               <button className={`bg-[#f7f7f7]  p-2 border-[1px] border-gray-200 hover:border-skyText rounded-full text-xs hover:bg-white duration-200 cursor-pointer ${product.quantity == 1? 'text-gray-300' : 'text-black'}`}>
-                <IoRemoveOutline onClick={() => removeQuantity(product)}/>
+                <IoRemoveOutline onClick={() => removeQuantity()}/>
               </button>
               <p>{product.quantity}</p>
               <button className="bg-[#f7f7f7] text-black p-2 border-[1px] border-gray-200 hover:border-skyText rounded-full text-xs hover:bg-white duration-200 cursor-pointer">

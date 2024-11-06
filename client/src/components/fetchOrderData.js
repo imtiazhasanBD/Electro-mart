@@ -1,19 +1,21 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { auth, db } from "../components/firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { ProductsContext } from "../context/ProductsContext";
 import { toast } from "react-toastify";
 import useFetchUserData from "./fetchUser";
+import { useDispatch } from "react-redux";
+import { setLoading } from "../features/genaralSlice";
 
 
 const useFetchOrderData = () => {
   const userInfo = useFetchUserData();  // Get user info
-  const { state, dispatch } = useContext(ProductsContext);
+  
+  const dispatch = useDispatch();
   const [orderItems, setOrderItems] = useState([]);
 
   useEffect(() => {
     const fetchOrderData = async () => {
-      dispatch({ type: "SET_LOADING", payload: true });
+      dispatch(setLoading(true));
 
       try {
         if (userInfo?.email) {  
@@ -30,7 +32,7 @@ const useFetchOrderData = () => {
       } catch (error) {
         console.error("Error fetching order data:", error);
       } finally {
-        dispatch({ type: "SET_LOADING", payload: false });
+        dispatch(setLoading(false));
       }
     };
 

@@ -1,22 +1,25 @@
-import React, { useContext } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
-import { ProductsContext } from "../context/ProductsContext";
 import { MdOutlineRemoveCircleOutline } from "react-icons/md";
 import { toast } from "react-toastify";
 import { useAddToCart } from "../components/useAddToCart";
+import { useDispatch, useSelector } from "react-redux";
+import { RemoveFromFavs } from "../features/favorites/favoritesSlice";
 
 const Favorites = ({handlePageTitle}) => {
-  const { state, dispatch } = useContext(ProductsContext);
+  const { favorites, isLoading, error } = useSelector((state) => state.favoritesR);
+  const dispatch = useDispatch();
 
   // Add to cart from wishlist
     const addToCart = useAddToCart();
+    
   
-    handlePageTitle("Shopping Wishlist | ElectroMart.com")
+ //   handlePageTitle("Shopping Wishlist | ElectroMart.com")
 
   // Remove Product from wishlist
   const removeFromFavorites = (id) => {
-    dispatch({ type: "REMOVE_FROM_FAVORITES", payload: id });
+    dispatch(RemoveFromFavs(id));
     toast.info("The item has been removed from the wishlist");
   };
 
@@ -26,7 +29,7 @@ const Favorites = ({handlePageTitle}) => {
         Home / <span className="text-blue-500">Wishlist</span>
       </h2>
       <h1 className="text-3xl font-bold text-blue-400 mb-6">My Wishlist</h1>
-      {state.favoriteProducts.length > 0 ? (
+      {favorites.length > 0 ? (
         <section className="products_list overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead className="bg-gray-200">
@@ -39,8 +42,8 @@ const Favorites = ({handlePageTitle}) => {
               </tr>
             </thead>
             <tbody>
-              {state.favoriteProducts.map((product) => (
-                <tr key={product.id} className="border-b hover:bg-gray-50">
+              {favorites.map((product) => (
+                <tr key={uuidv4()} className="border-b hover:bg-gray-50">
                   <td className="py-3 px-4 text-center">
                     <button
                       onClick={() => removeFromFavorites(product.id)}

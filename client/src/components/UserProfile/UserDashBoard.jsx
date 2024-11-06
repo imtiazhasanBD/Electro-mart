@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, {  useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 import useFetchUserData from "../fetchUser";
 import { useParams } from "react-router-dom";
@@ -7,7 +7,6 @@ import useFetchOrderData from "../fetchOrderData";
 const UserDashboard = () => {
   const userInfo = useFetchUserData();
   const orderItems = useFetchOrderData();
-  console.log(orderItems);
 
   return (
     <div className="w-full md:flex flex-col  bg-white hidden">

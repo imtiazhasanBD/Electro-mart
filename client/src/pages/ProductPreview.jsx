@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { ProductsContext } from "../context/ProductsContext";
+
 import Product from "../components/Product";
 import { v4 as uuidv4 } from "uuid";
 import Rating from "../components/Rating";
@@ -20,12 +20,19 @@ import { CiDeliveryTruck } from "react-icons/ci";
 import { TbTruckReturn } from "react-icons/tb";
 import { AiOutlineFileProtect } from "react-icons/ai";
 import useFetchUserData from "../components/fetchUser";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchRelatedProducts } from "../features/related-products/relatedProductsSlice";
 
 const ProductPreview = ({handlePageTitle}) => {
   const location = useLocation();
   const userInfo = useFetchUserData();
-
+  const dispatch = useDispatch();
+  const { relatedProducts, isLoading, error } = useSelector((state) => state.relatedProductsR);
+  const { favorites } = useSelector((state) => state.favoritesR);
+  const { isItLoading } = useSelector((state) => state.genaralSliceR);
   const product = location.state?.product;
+  console.log(product);
+  
 
   if (!product) {
     return <LoadingScreen />; // Loading if no product is found
@@ -52,7 +59,6 @@ const ProductPreview = ({handlePageTitle}) => {
     sku,
   } = product;
 
-  const { state, dispatch } = useContext(ProductsContext);
   const [activeTab, setActiveTab] = useState("reviews");
   const [isFav, setIsFav] = useState(false);
   const [image, setImage] = useState("");
@@ -60,59 +66,28 @@ const ProductPreview = ({handlePageTitle}) => {
   // Related Products Add
   useEffect(() => {
     handlePageTitle(title)
-    const fetchData = async () => {
-      try {
-        dispatch({ type: "SET_LOADING", payload: true });
-        const response = await fetch(
-          `https://dummyjson.com/products/category/${category}`
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch data");
-        }
-
-        const data = await response.json();
-
-        if (data && data.products) {
-          dispatch({ type: "RELETER_PRODUCTS", payload: data });
-          dispatch({ type: "SET_IMAGE", payload: thumbnail });
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-        dispatch({ type: "API_DATA_ERROR" });
-      } finally {
-        dispatch({ type: "SET_LOADING", payload: false });
-      }
-    };
-
-    fetchData();
-
-    // Cleanup function to prevent memory leaks
-    return () => {
-      // Optional cleanup logic (e.g., canceling API requests if using axios or abort controller)
-    };
+    dispatch(fetchRelatedProducts(category));
   }, [category, dispatch]);
 
   // Product AddToCart
-
   const addToCart = useAddToCart();
 
   // Product Add To Wishlist
   const addTofavs = useAddToFavs();
 
   useEffect(() => {
-    const isFavCheck = state.favoriteProducts.some(
+    const isFavCheck = favorites.some(
       (favProduct) => favProduct.id === product.id
     );
     setIsFav(isFavCheck);
-  }, [state.favoriteProducts, product]);
+  }, [favorites, product]);
 
   useEffect(() => {
     setImage(thumbnail);
   }, [product]);
 
   // loading state
-  if (state.isLoading || !userInfo) {
+  if (isItLoading || isLoading) {
     return <LoadingScreen />;
   }
 
@@ -490,10 +465,10 @@ const ProductPreview = ({handlePageTitle}) => {
           </h2>
           {/* Releted Products Add section */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 gap-4 ">
-            {!state.relatedProducts[0] ? (
+            {!relatedProducts ? (
               <LoadingScreen />
             ) : (
-              state.relatedProducts[0].products.map((product) => (
+              relatedProducts.map((product) => (
                 <Product product={product} key={uuidv4()} />
               ))
             )}

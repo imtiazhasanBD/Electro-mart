@@ -5,10 +5,12 @@ import './index.css'
 import ProductsProvider from './context/ProductsContext.jsx'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Provider } from 'react-redux'
+import { store } from './app/store.js'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
- 
-    <ProductsProvider>
+  
+    <Provider store={store}>
       <App />
       <ToastContainer
         position="top-right"
@@ -25,6 +27,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         bodyClassName="toastBody"
         
       />
-    </ProductsProvider>
+    </Provider>
  
 )

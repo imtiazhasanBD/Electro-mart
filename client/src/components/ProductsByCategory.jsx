@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { ProductsContext } from "../context/ProductsContext";
+import React, {  useEffect, useState } from "react";
+
 
 import { FaHeart } from "react-icons/fa";
 import { CiSearch, CiShoppingCart } from "react-icons/ci";
@@ -12,33 +12,28 @@ import { Link, useNavigate } from "react-router-dom";
 const laptops_banner = "https://www.lapshop.in/_nuxt/img/jul_2024_banner2.a4049c2.jpg";
 import grocery_banner from "../assets/images/banner_images/banner-mobile.jpg";
 import getResponsiveConfig from "./getResponsiveConfig";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchProductsByCategory } from "../features/productsByCategory/productsByCategorySlice";
+import { setLoading } from "../features/genaralSlice";
+
 const ProductsByCategory = ({category}) => {
-  const { state, dispatch } = useContext(ProductsContext);
-  const [categoryProducts, setcategoryProducts] = useState(null);
-
+  
+  const { productsByCategory, isLoading, error } = useSelector((state) => state.productsByCategoryR);
   const isForCategoryList = ["womens-dresses", "womens-bags", "womens-shoes","home-decoration","kitchen-accessories","sports-accessories"].includes(category);
-
+ 
+const dispatch = useDispatch();
+const products = productsByCategory[category] ? [...productsByCategory[category]] : []; 
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      const url = `https://dummyjson.com/products/category/${category}`;
-      try {
-        const response = await fetch(url);
-        const data = await response.json();
-        setcategoryProducts(data)
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
-    fetchProducts();
-  }, [category]);
+    dispatch(fetchProductsByCategory(category))
+  }, [category, dispatch]);
   
   const responsive = getResponsiveConfig({category});
 
 const navigate = useNavigate();
 
 const handleOnClick = () => {
-  dispatch({ type: "SET_LOADING", payload: true });
+  dispatch(setLoading(true));
    navigate(`/products/category/${category}`)
 }
   // Product Add To Cart
@@ -102,17 +97,17 @@ const handleOnClick = () => {
         </section>
       )}
 
-      {categoryProducts?.products && (
+      {products && (
         isForCategoryList ? (
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 xl:grid-cols-2 gap-3 pt-4">
-            {categoryProducts.products
+            {products
               .sort((a, b) => b.discountPercentage - a.discountPercentage)
               .slice(0, 4)
               .map(renderProductCard)}
           </div>
         ) : (
           <Carousel responsive={responsive} className="z-0">
-            {categoryProducts.products
+            {products
               .sort((a, b) => b.discountPercentage - a.discountPercentage)
               .map(renderProductCard)}
           </Carousel>
